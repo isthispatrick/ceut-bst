@@ -1,0 +1,73 @@
+{
+  "user_agent": "CUET-BST-PYQ-Research/1.0 (+local reproducible academic analysis; respects robots.txt)",
+  "request_delay_seconds": 2.0,
+  "timeout_seconds": 30,
+  "max_links_per_page": 80,
+  "official_sources": [
+    {
+      "name": "NTA CUET syllabus page",
+      "kind": "html",
+      "url": "https://cuet.nta.nic.in/syllabus/",
+      "priority": 1
+    },
+    {
+      "name": "Official CUET Business Studies syllabus PDF",
+      "kind": "pdf",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030154-1.pdf",
+      "priority": 1
+    },
+    {
+      "name": "NTA question paper and answer key listing",
+      "kind": "crawl_page",
+      "url": "https://nta.ac.in/Download/ExamPaper/",
+      "priority": 1,
+      "link_include_terms": ["cuet", "business", "studies", "answer", "question", "paper", "305"],
+      "link_required_any_terms": ["business studies", "business-studies", "subject 305", " 305 ", "bst"]
+    }
+  ],
+  "secondary_sources": [
+    {
+      "name": "AfterBoards CUET Business Studies PYQs",
+      "kind": "html",
+      "url": "https://www.afterboards.in/past-year-questions/cuet-business-studies",
+      "priority": 2
+    },
+    {
+      "name": "Dubuddy CUET Business Studies solved papers",
+      "kind": "html",
+      "url": "https://dubuddy.in/cuet-ug/cuet-previous-year-question-papers/business-studies-solved-papers",
+      "priority": 2,
+      "link_required_any_terms": ["business studies", "business-studies", "activecategory=6056208", "subject 305", "bst"]
+    },
+    {
+      "name": "TestCoach CUET previous-year papers",
+      "kind": "html",
+      "url": "https://testcoach.in/cuet/download-previous-years-question-papers/",
+      "priority": 2,
+      "link_include_terms": ["cuet", "business", "studies", "pdf", "question"],
+      "link_required_any_terms": ["business studies", "business-studies", "bst"]
+    },
+    {
+      "name": "PhysicsWallah CUET Business Studies PYQ article",
+      "kind": "html",
+      "url": "https://store.pw.live/blogs/cuet-exams/cuet-business-studies-previous-year-question-papers",
+      "priority": 2
+    }
+  ],
+  "reddit_queries": [
+    "site:reddit.com/r/CUETards Business Studies CUET",
+    "site:reddit.com/r/CUETards BST CUET",
+    "site:reddit.com/r/CUETards Business Studies PYQ",
+    "site:reddit.com/r/CUETards CUET BST"
+  ],
+  "discovery_queries": [
+    "CUET Business Studies previous year question paper PDF",
+    "CUET Business Studies PYQ 2022 2023 2024 2025",
+    "CUET Business Studies question paper answer key",
+    "CUET UG Business Studies solved paper PDF",
+    "site:nta.ac.in/Download/ExamPaper BUSINESS STUDIES CUET",
+    "site:nta.ac.in/Download/ExamPaper Business Studies Final Answer Keys CUET UG",
+    "site:nta.ac.in/Download/ExamPaper Business Studies Question ID"
+  ],
+  "manual_discovery_file": "data/manual_imports/discovered_urls.txt"
+}

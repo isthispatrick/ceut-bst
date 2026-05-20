@@ -1,0 +1,2 @@
+canonical_question_id,chapter,subtopic,micro_concept,question_pattern,final_confidence,taxonomy_mismatch_reason,question_text,source_url
+cq_bad,Marketing,financing decision,financing decision,definition-based,0.9,subtopic not allowed for chapter: financing decision; micro_concept not allowed for chapter: financial risk,Debt and equity question,

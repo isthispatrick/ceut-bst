@@ -1,0 +1,94 @@
+plan_days,day,allocated_hours,chapter,subtopic,expected_marks_contribution,roi,recommended_action
+3,1,1.35,Controlling,relationship with planning,82.25,60.93,Study deeply and solve all available PYQs
+3,1,1.55,Organising,meaning and process,91.75,59.19,Study deeply and solve all available PYQs
+3,1,1.1,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+3,2,0.25,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+3,2,1.55,Business Environment,meaning and features,90.5,58.39,Study deeply and solve all available PYQs
+3,2,1.55,Organising,delegation,89.25,57.58,Study deeply and solve all available PYQs
+3,2,0.65,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+3,3,0.9,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+3,3,1.55,Consumer Protection,importance,88.0,56.77,Study deeply and solve all available PYQs
+3,3,1.55,Staffing,selection,88.0,56.77,Study deeply and solve all available PYQs
+5,1,1.35,Controlling,relationship with planning,82.25,60.93,Study deeply and solve all available PYQs
+5,1,1.55,Organising,meaning and process,91.75,59.19,Study deeply and solve all available PYQs
+5,1,1.1,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+5,2,0.25,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+5,2,1.55,Business Environment,meaning and features,90.5,58.39,Study deeply and solve all available PYQs
+5,2,1.55,Organising,delegation,89.25,57.58,Study deeply and solve all available PYQs
+5,2,0.65,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+5,3,0.9,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+5,3,1.55,Consumer Protection,importance,88.0,56.77,Study deeply and solve all available PYQs
+5,3,1.55,Staffing,selection,88.0,56.77,Study deeply and solve all available PYQs
+5,4,1.35,Entrepreneurship Development,concept and functions,73.81,54.67,Study deeply and solve all available PYQs
+5,4,1.55,Directing,Maslow hierarchy,84.25,54.35,Study deeply and solve all available PYQs
+5,4,1.1,Controlling,control process,95.0,54.29,Study deeply and solve all available PYQs
+5,5,0.65,Controlling,control process,95.0,54.29,Study deeply and solve all available PYQs
+5,5,1.75,Nature and Significance of Management,meaning and objectives,95.0,54.29,Study deeply and solve all available PYQs
+5,5,1.55,Consumer Protection,legal redressal,83.74,54.03,Study deeply and solve all available PYQs
+7,1,1.35,Controlling,relationship with planning,82.25,60.93,Study deeply and solve all available PYQs
+7,1,1.55,Organising,meaning and process,91.75,59.19,Study deeply and solve all available PYQs
+7,1,1.1,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+7,2,0.25,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+7,2,1.55,Business Environment,meaning and features,90.5,58.39,Study deeply and solve all available PYQs
+7,2,1.55,Organising,delegation,89.25,57.58,Study deeply and solve all available PYQs
+7,2,0.65,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+7,3,0.9,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+7,3,1.55,Consumer Protection,importance,88.0,56.77,Study deeply and solve all available PYQs
+7,3,1.55,Staffing,selection,88.0,56.77,Study deeply and solve all available PYQs
+7,4,1.35,Entrepreneurship Development,concept and functions,73.81,54.67,Study deeply and solve all available PYQs
+7,4,1.55,Directing,Maslow hierarchy,84.25,54.35,Study deeply and solve all available PYQs
+7,4,1.1,Controlling,control process,95.0,54.29,Study deeply and solve all available PYQs
+7,5,0.65,Controlling,control process,95.0,54.29,Study deeply and solve all available PYQs
+7,5,1.75,Nature and Significance of Management,meaning and objectives,95.0,54.29,Study deeply and solve all available PYQs
+7,5,1.55,Consumer Protection,legal redressal,83.74,54.03,Study deeply and solve all available PYQs
+7,6,1.75,Business Environment,dimensions,93.75,53.57,Study deeply and solve all available PYQs
+7,6,1.75,Nature and Significance of Management,features of management,93.75,53.57,Study deeply and solve all available PYQs
+7,6,0.5,Principles of Management,Fayol principles,93.75,53.57,Study deeply and solve all available PYQs
+7,7,1.25,Principles of Management,Fayol principles,93.75,53.57,Study deeply and solve all available PYQs
+7,7,1.75,Principles of Management,Taylor scientific management,93.75,53.57,Study deeply and solve all available PYQs
+7,7,1.0,Consumer Protection,consumer rights,92.5,52.86,Study deeply and solve all available PYQs
+14,1,1.35,Controlling,relationship with planning,82.25,60.93,Study deeply and solve all available PYQs
+14,1,1.55,Organising,meaning and process,91.75,59.19,Study deeply and solve all available PYQs
+14,1,1.1,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+14,2,0.25,Controlling,meaning and importance,79.75,59.07,Study deeply and solve all available PYQs
+14,2,1.55,Business Environment,meaning and features,90.5,58.39,Study deeply and solve all available PYQs
+14,2,1.55,Organising,delegation,89.25,57.58,Study deeply and solve all available PYQs
+14,2,0.65,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+14,3,0.9,Staffing,training and development,88.75,57.26,Study deeply and solve all available PYQs
+14,3,1.55,Consumer Protection,importance,88.0,56.77,Study deeply and solve all available PYQs
+14,3,1.55,Staffing,selection,88.0,56.77,Study deeply and solve all available PYQs
+14,4,1.35,Entrepreneurship Development,concept and functions,73.81,54.67,Study deeply and solve all available PYQs
+14,4,1.55,Directing,Maslow hierarchy,84.25,54.35,Study deeply and solve all available PYQs
+14,4,1.1,Controlling,control process,95.0,54.29,Study deeply and solve all available PYQs
+14,5,0.65,Controlling,control process,95.0,54.29,Study deeply and solve all available PYQs
+14,5,1.75,Nature and Significance of Management,meaning and objectives,95.0,54.29,Study deeply and solve all available PYQs
+14,5,1.55,Consumer Protection,legal redressal,83.74,54.03,Study deeply and solve all available PYQs
+14,6,1.75,Business Environment,dimensions,93.75,53.57,Study deeply and solve all available PYQs
+14,6,1.75,Nature and Significance of Management,features of management,93.75,53.57,Study deeply and solve all available PYQs
+14,6,0.5,Principles of Management,Fayol principles,93.75,53.57,Study deeply and solve all available PYQs
+14,7,1.25,Principles of Management,Fayol principles,93.75,53.57,Study deeply and solve all available PYQs
+14,7,1.75,Principles of Management,Taylor scientific management,93.75,53.57,Study deeply and solve all available PYQs
+14,7,1.0,Consumer Protection,consumer rights,92.5,52.86,Study deeply and solve all available PYQs
+14,8,0.75,Consumer Protection,consumer rights,92.5,52.86,Study deeply and solve all available PYQs
+14,8,1.75,Directing,meaning and importance,92.5,52.86,Study deeply and solve all available PYQs
+14,8,1.5,Entrepreneurship Development,need and characteristics,92.5,52.86,Study deeply and solve all available PYQs
+14,9,0.25,Entrepreneurship Development,need and characteristics,92.5,52.86,Study deeply and solve all available PYQs
+14,9,1.75,Organising,organisation structure,92.5,52.86,Study deeply and solve all available PYQs
+14,9,1.75,Planning,planning process,92.5,52.86,Study deeply and solve all available PYQs
+14,9,0.25,Staffing,staffing process,92.5,52.86,Study deeply and solve all available PYQs
+14,10,1.5,Staffing,staffing process,92.5,52.86,Study deeply and solve all available PYQs
+14,10,1.75,Nature and Significance of Management,levels of management,91.25,52.14,Study deeply and solve all available PYQs
+14,10,0.75,Business Finance,investment decision,80.5,51.94,Study deeply and solve all available PYQs
+14,11,0.8,Business Finance,investment decision,80.5,51.94,Study deeply and solve all available PYQs
+14,11,1.75,Business Finance,financial management,90.0,51.43,Study deeply and solve all available PYQs
+14,11,1.45,Business Finance,financing decision,90.0,51.43,Study deeply and solve all available PYQs
+14,12,0.3,Business Finance,financing decision,90.0,51.43,Study deeply and solve all available PYQs
+14,12,1.75,Marketing,marketing mix,90.0,51.43,Study deeply and solve all available PYQs
+14,12,1.75,Marketing,promotion,90.0,51.43,Study deeply and solve all available PYQs
+14,12,0.2,Nature and Significance of Management,functions of management,90.0,51.43,Study deeply and solve all available PYQs
+14,13,1.55,Nature and Significance of Management,functions of management,90.0,51.43,Study deeply and solve all available PYQs
+14,13,1.75,Principles of Management,techniques of scientific management,90.0,51.43,Study deeply and solve all available PYQs
+14,13,0.7,Directing,communication,88.75,50.71,Study deeply and solve all available PYQs
+14,14,1.05,Directing,communication,88.75,50.71,Study deeply and solve all available PYQs
+14,14,1.75,Directing,motivation,88.75,50.71,Study deeply and solve all available PYQs
+14,14,1.2,Marketing,product,88.75,50.71,Study deeply and solve all available PYQs

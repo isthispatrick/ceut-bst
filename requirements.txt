@@ -1,0 +1,17 @@
+requests>=2.32.0
+beautifulsoup4>=4.12.3
+pandas>=2.2.2
+numpy>=1.26.4
+pdfplumber>=0.11.4
+PyMuPDF>=1.24.9
+pytesseract>=0.3.13
+Pillow>=10.4.0
+scikit-learn>=1.5.1
+sentence-transformers>=3.0.1
+streamlit>=1.37.0
+plotly>=5.23.0
+openpyxl>=3.1.5
+duckdb>=1.0.0
+reportlab>=4.2.2
+python-dotenv>=1.0.1
+twikit>=2.3.3

@@ -1,0 +1,111 @@
+topic,chapter,reddit_hype_score,actual_weighted_frequency,actual_pyq_frequency,mismatch_type
+control process,Controlling,0,50.7,78,underhyped_hidden_gem
+dimensions,Business Environment,0,46.8,72,underhyped_hidden_gem
+product,Marketing,0,45.5,70,underhyped_hidden_gem
+functions of management,Nature and Significance of Management,0,44.2,68,underhyped_hidden_gem
+Fayol principles,Principles of Management,0,43.55,67,underhyped_hidden_gem
+communication,Directing,0,37.7,58,underhyped_hidden_gem
+consumer rights,Consumer Protection,0,33.8,52,underhyped_hidden_gem
+financing decision,Business Finance,0,33.15,51,underhyped_hidden_gem
+organisation structure,Organising,0,27.3,42,underhyped_hidden_gem
+staffing process,Staffing,0,26.65,41,underhyped_hidden_gem
+levels of management,Nature and Significance of Management,0,25.35,39,underhyped_hidden_gem
+recruitment,Staffing,0,25.35,39,underhyped_hidden_gem
+types of plans,Planning,0,24.7,38,underhyped_hidden_gem
+importance,Consumer Protection,0,23.4,36,underhyped_hidden_gem
+marketing mix,Marketing,0,22.75,35,underhyped_hidden_gem
+planning process,Planning,0,22.75,35,underhyped_hidden_gem
+training and development,Staffing,0,22.75,35,underhyped_hidden_gem
+meaning and objectives,Nature and Significance of Management,0,22.1,34,underhyped_hidden_gem
+meaning and process,Organising,0,22.1,34,underhyped_hidden_gem
+selection,Staffing,0,21.45,33,underhyped_hidden_gem
+working capital,Business Finance,0,20.15,31,underhyped_hidden_gem
+delegation,Organising,0,20.15,31,underhyped_hidden_gem
+financial management,Business Finance,0,18.85,29,underhyped_hidden_gem
+financial planning,Business Finance,0,18.2,28,underhyped_hidden_gem
+need and characteristics,Entrepreneurship Development,0,18.2,28,underhyped_hidden_gem
+Taylor scientific management,Principles of Management,0,18.2,28,underhyped_hidden_gem
+investment decision,Business Finance,0,17.55,27,underhyped_hidden_gem
+marketing meaning,Marketing,0,16.9,26,underhyped_hidden_gem
+promotion,Marketing,0,16.9,26,underhyped_hidden_gem
+techniques of scientific management,Principles of Management,0,16.25,25,underhyped_hidden_gem
+Maslow hierarchy,Directing,0,15.6,24,underhyped_hidden_gem
+features of management,Nature and Significance of Management,0,15.6,24,underhyped_hidden_gem
+meaning and features,Business Environment,0,14.95,23,underhyped_hidden_gem
+relationship with planning,Controlling,0,14.95,23,underhyped_hidden_gem
+meaning and importance,Controlling,0,14.3,22,insufficient_data
+motivation,Directing,0,14.3,22,insufficient_data
+leadership,Directing,0,13.0,20,insufficient_data
+legal redressal,Consumer Protection,0,12.35,19,insufficient_data
+meaning and importance,Directing,0,12.35,19,insufficient_data
+coordination,Nature and Significance of Management,0,11.7,18,insufficient_data
+process,Entrepreneurship Development,0,10.4,16,insufficient_data
+decentralisation,Organising,0,10.4,16,insufficient_data
+nature of principles,Principles of Management,0,10.4,16,insufficient_data
+concept and functions,Entrepreneurship Development,0,9.75,15,insufficient_data
+formal and informal organisation,Organising,0,9.75,15,insufficient_data
+importance,Planning,0,9.75,15,insufficient_data
+fixed capital,Business Finance,0,8.45,13,insufficient_data
+marketing management philosophies,Marketing,0,7.8,12,insufficient_data
+pricing,Marketing,0,7.15,11,insufficient_data
+competencies and values,Entrepreneurship Development,0,6.5,10,insufficient_data
+limitations,Planning,0,6.5,10,insufficient_data
+meaning and importance,Staffing,0,6.5,10,insufficient_data
+dividend decision,Business Finance,0,5.85,9,insufficient_data
+importance of environment,Business Environment,0,5.2,8,insufficient_data
+entrepreneurship in India,Entrepreneurship Development,0,5.2,8,insufficient_data
+importance,Organising,0,5.2,8,insufficient_data
+meaning and features,Planning,0,5.2,8,insufficient_data
+importance of management,Nature and Significance of Management,0,4.55,7,insufficient_data
+channels of distribution,Marketing,0,3.9,6,insufficient_data
+consumer responsibilities,Consumer Protection,0,3.25,5,insufficient_data
+supervision,Directing,0,3.25,5,insufficient_data
+liberalisation privatisation globalisation,Business Environment,0,1.95,3,insufficient_data
+NGOs and relief,Consumer Protection,0,1.95,3,insufficient_data
+marketing vs selling,Marketing,0,1.3,2,insufficient_data
+product classification,Marketing,0,1.3,2,insufficient_data
+features of a profession,Nature and Significance of Management,0,1.3,2,insufficient_data
+Compensation and Benefits,Staffing,0,1.3,2,insufficient_data
+Consumer Protection and Legal Aspects,Business Environment,0,0.65,1,insufficient_data
+Capital Structure,Business Finance,0,0.65,1,insufficient_data
+Cost Classification,Business Finance,0,0.65,1,insufficient_data
+Financing Decision,Business Finance,0,0.65,1,insufficient_data
+Owners' Funds,Business Finance,0,0.65,1,insufficient_data
+Project Appraisal,Business Finance,0,0.65,1,insufficient_data
+current assets,Business Finance,0,0.65,1,insufficient_data
+financial ratios,Business Finance,0,0.65,1,insufficient_data
+financial statements and ratios,Business Finance,0,0.65,1,insufficient_data
+consumer products,Consumer Protection,0,0.65,1,insufficient_data
+objectives of standardisation,Controlling,0,0.65,1,insufficient_data
+principles of directing,Directing,0,0.65,1,insufficient_data
+Entrepreneurial Competencies,Entrepreneurship,0,0.65,1,insufficient_data
+Motivation for Entrepreneurship,Entrepreneurship,0,0.65,1,insufficient_data
+functions of an entrepreneur,Entrepreneurship Development,0,0.65,1,insufficient_data
+Current Assets,Financial Management,0,0.65,1,insufficient_data
+Leverage Ratios,Financial Management,0,0.65,1,insufficient_data
+Profitability Ratios,Financial Management,0,0.65,1,insufficient_data
+Capital and Financial Markets,Financial Markets,0,0.65,1,insufficient_data
+Trading and Settlement Procedures,Financial Markets,0,0.65,1,insufficient_data
+Staffing,Functions of Management,0,0.65,1,insufficient_data
+Classification of Products,Marketing,0,0.65,1,insufficient_data
+Classification of products,Marketing,0,0.65,1,insufficient_data
+Pricing,Marketing,0,0.65,1,insufficient_data
+Promotion Mix,Marketing,0,0.65,1,insufficient_data
+competition and response strategies,Marketing,0,0.65,1,insufficient_data
+Brand Management,Marketing Management,0,0.65,1,insufficient_data
+Profession,Nature and Scope of Business,0,0.65,1,insufficient_data
+Organizational Structure and Communication Networks,Nature and Significance of Management,0,0.65,1,insufficient_data
+decentralization,Nature and Significance of Management,0,0.65,1,insufficient_data
+dimensions of management,Nature and Significance of Management,0,0.65,1,insufficient_data
+features of management as an art,Nature and Significance of Management,0,0.65,1,insufficient_data
+social objective,Nature and Significance of Management,0,0.65,1,insufficient_data
+types of business tests,Nature and Significance of Management,0,0.65,1,insufficient_data
+divisional structure,Organising,0,0.65,1,insufficient_data
+Functions of Physical Distribution,Physical Distribution,0,0.65,1,insufficient_data
+Budgeting,Planning,0,0.65,1,insufficient_data
+Floatation Methods,Primary Market,0,0.65,1,insufficient_data
+Principle of Authority and Responsibility,Principles of Management,0,0.65,1,insufficient_data
+Techniques of Scientific Management,Principles of Management,0,0.65,1,insufficient_data
+environmental scanning techniques,Principles of Management,0,0.65,1,insufficient_data
+Economies of Scale,Production and Operations Management,0,0.65,1,insufficient_data
+employee retention,Staffing,0,0.65,1,insufficient_data

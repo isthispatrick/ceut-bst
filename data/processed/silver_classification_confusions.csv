@@ -1,0 +1,51 @@
+field,gold_label,predicted_label,count
+chapter,Business Finance,Organising,2
+chapter,Nature and Significance of Management,Business Environment,2
+chapter,Principles of Management,Business Finance,2
+chapter,Organising,Planning,2
+chapter,Organising,Directing,2
+chapter,Directing,Entrepreneurship Development,1
+chapter,Business Finance,Principles of Management,1
+chapter,Controlling,Marketing,1
+chapter,Directing,Controlling,1
+chapter,Business Environment,Principles of Management,1
+chapter,Marketing,Directing,1
+chapter,Marketing,Consumer Protection,1
+chapter,Entrepreneurship Development,Entrepreneurship,1
+chapter,Entrepreneurship Development,Consumer Protection,1
+chapter,Nature and Significance of Management,Staffing,1
+chapter,Marketing,Staffing,1
+chapter,Planning,Controlling,1
+chapter,Marketing,Planning,1
+chapter,Planning,Marketing,1
+chapter,Principles of Management,Consumer Protection,1
+chapter,Principles of Management,Marketing,1
+chapter,Principles of Management,Nature and Significance of Management,1
+chapter,Staffing,Consumer Protection,1
+chapter,Staffing,Entrepreneurship Development,1
+chapter,Staffing,Marketing,1
+subtopic,investment decision,dividend decision,3
+subtopic,features of management,levels of management,2
+subtopic,working capital,investment decision,2
+subtopic,Fayol principles,consumer rights,1
+subtopic,benefits of planning,relationship with planning,1
+subtopic,benefits of staffing,consumer rights,1
+subtopic,capital structure,financial planning,1
+subtopic,capital budgeting,working capital,1
+subtopic,capital structure,organisation structure,1
+subtopic,characteristics of entrepreneurship,concept and functions,1
+subtopic,classical management theory,Taylor scientific management,1
+subtopic,capital structure,fixed capital,1
+subtopic,communication,training and development,1
+subtopic,consumer organizations and NGOs,importance,1
+subtopic,definition of management,dimensions,1
+subtopic,control process,marketing management philosophies,1
+subtopic,elements of directing,communication,1
+subtopic,entrepreneurial process,process,1
+subtopic,Taylor scientific management,working capital,1
+subtopic,Fayol principles,levels of management,1
+subtopic,financial management,Fayol principles,1
+subtopic,features of management,dimensions,1
+subtopic,financial statements,investment decision,1
+subtopic,financial management,organisation structure,1
+subtopic,formal organization,communication,1

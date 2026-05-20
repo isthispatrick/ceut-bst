@@ -1,0 +1,8 @@
+metric,value
+pipeline_vs_silver_rows,300
+pipeline_vs_silver_matched_rows,300
+pipeline_vs_silver_chapter_accuracy,0.8967
+pipeline_vs_silver_subtopic_accuracy,0.8133
+pipeline_vs_silver_micro_concept_accuracy,0.3533
+pipeline_vs_silver_question_type_accuracy,0.9333
+pipeline_vs_human_gold_status,Human-verified accuracy unavailable yet.

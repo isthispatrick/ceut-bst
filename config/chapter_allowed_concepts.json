@@ -1,0 +1,50 @@
+{
+  "Nature and Significance of Management": {
+    "allowed_subtopics": ["meaning and objectives", "features of management", "importance of management", "levels of management", "functions of management", "coordination"],
+    "allowed_micro_concepts": ["management", "coordination", "functions", "levels", "objectives", "efficiency", "effectiveness", "planning", "organising", "staffing", "directing", "controlling"]
+  },
+  "Principles of Management": {
+    "allowed_subtopics": ["nature of principles", "Fayol principles", "Taylor scientific management", "techniques of scientific management"],
+    "allowed_micro_concepts": ["scalar chain", "unity of command", "unity of direction", "division of work", "equity", "discipline", "centralisation/decentralisation", "scientific management", "method study", "motion study", "time study", "fatigue study", "differential piece wage", "functional foremanship", "standardisation", "simplification", "mental revolution"]
+  },
+  "Business Environment": {
+    "allowed_subtopics": ["meaning and features", "importance of environment", "dimensions", "liberalisation privatisation globalisation"],
+    "allowed_micro_concepts": ["environment", "economic environment", "social environment", "technological environment", "political environment", "legal environment", "liberalisation", "privatisation", "globalisation", "demonetisation"]
+  },
+  "Planning": {
+    "allowed_subtopics": ["meaning and features", "importance", "limitations", "planning process", "types of plans"],
+    "allowed_micro_concepts": ["types of plans", "objectives", "strategy", "policy", "procedure", "method", "rule", "programme", "budget", "planning", "premises", "alternatives"]
+  },
+  "Organising": {
+    "allowed_subtopics": ["meaning and process", "importance", "organisation structure", "formal and informal organisation", "delegation", "decentralisation"],
+    "allowed_micro_concepts": ["division of work", "delegation", "formal/informal organisation", "organisation structure", "functional structure", "divisional structure", "authority", "responsibility", "accountability", "centralisation/decentralisation", "span of management"]
+  },
+  "Staffing": {
+    "allowed_subtopics": ["meaning and importance", "staffing process", "recruitment", "selection", "training and development"],
+    "allowed_micro_concepts": ["recruitment", "selection", "training", "staffing", "staffing process", "manpower planning", "placement", "orientation", "performance appraisal", "promotion", "compensation"]
+  },
+  "Directing": {
+    "allowed_subtopics": ["meaning and importance", "supervision", "motivation", "Maslow hierarchy", "leadership", "communication"],
+    "allowed_micro_concepts": ["maslow hierarchy", "leadership style", "communication barriers", "directing", "supervision", "motivation", "financial incentives", "non financial incentives", "formal communication", "informal communication"]
+  },
+  "Controlling": {
+    "allowed_subtopics": ["meaning and importance", "relationship with planning", "control process"],
+    "allowed_micro_concepts": ["controlling", "control process", "planning and controlling", "standards", "deviation", "critical point control", "management by exception", "corrective action"]
+  },
+  "Business Finance": {
+    "allowed_subtopics": ["financial management", "investment decision", "financing decision", "dividend decision", "financial planning", "fixed capital", "working capital"],
+    "allowed_micro_concepts": ["financial risk", "capital structure", "fixed capital", "working capital", "financial management", "financial planning", "investment decision", "financing decision", "dividend decision", "trading on equity", "debt", "equity", "operating cycle"]
+  },
+  "Marketing": {
+    "allowed_subtopics": ["marketing meaning", "marketing vs selling", "marketing management philosophies", "marketing mix", "product", "pricing", "channels of distribution", "promotion"],
+    "allowed_micro_concepts": ["marketing mix", "product mix", "price mix", "promotion mix", "place/channel", "marketing", "selling", "branding", "labelling", "packaging", "advertising", "personal selling", "sales promotion", "public relations", "channels"]
+  },
+  "Consumer Protection": {
+    "allowed_subtopics": ["importance", "consumer rights", "consumer responsibilities", "legal redressal", "NGOs and relief"],
+    "allowed_micro_concepts": ["consumer rights", "consumer redressal", "consumer responsibilities", "consumer protection", "quality marks", "cash memo", "district commission", "state commission", "national commission", "relief", "ngo"]
+  },
+  "Entrepreneurship Development": {
+    "allowed_subtopics": ["concept and functions", "need and characteristics", "competencies and values", "process", "entrepreneurship in India"],
+    "allowed_micro_concepts": ["entrepreneur characteristics", "entrepreneurship", "entrepreneur", "risk bearing", "innovation", "initiative", "creativity", "competencies", "motivation", "business plan", "startup", "msme"]
+  }
+}

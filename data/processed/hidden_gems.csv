@@ -1,0 +1,35 @@
+topic,chapter,reddit_hype_score,actual_weighted_frequency,actual_pyq_frequency,mismatch_type
+control process,Controlling,0,50.7,78,underhyped_hidden_gem
+dimensions,Business Environment,0,46.8,72,underhyped_hidden_gem
+product,Marketing,0,45.5,70,underhyped_hidden_gem
+functions of management,Nature and Significance of Management,0,44.2,68,underhyped_hidden_gem
+Fayol principles,Principles of Management,0,43.55,67,underhyped_hidden_gem
+communication,Directing,0,37.7,58,underhyped_hidden_gem
+consumer rights,Consumer Protection,0,33.8,52,underhyped_hidden_gem
+financing decision,Business Finance,0,33.15,51,underhyped_hidden_gem
+organisation structure,Organising,0,27.3,42,underhyped_hidden_gem
+staffing process,Staffing,0,26.65,41,underhyped_hidden_gem
+levels of management,Nature and Significance of Management,0,25.35,39,underhyped_hidden_gem
+recruitment,Staffing,0,25.35,39,underhyped_hidden_gem
+types of plans,Planning,0,24.7,38,underhyped_hidden_gem
+importance,Consumer Protection,0,23.4,36,underhyped_hidden_gem
+marketing mix,Marketing,0,22.75,35,underhyped_hidden_gem
+planning process,Planning,0,22.75,35,underhyped_hidden_gem
+training and development,Staffing,0,22.75,35,underhyped_hidden_gem
+meaning and objectives,Nature and Significance of Management,0,22.1,34,underhyped_hidden_gem
+meaning and process,Organising,0,22.1,34,underhyped_hidden_gem
+selection,Staffing,0,21.45,33,underhyped_hidden_gem
+working capital,Business Finance,0,20.15,31,underhyped_hidden_gem
+delegation,Organising,0,20.15,31,underhyped_hidden_gem
+financial management,Business Finance,0,18.85,29,underhyped_hidden_gem
+financial planning,Business Finance,0,18.2,28,underhyped_hidden_gem
+need and characteristics,Entrepreneurship Development,0,18.2,28,underhyped_hidden_gem
+Taylor scientific management,Principles of Management,0,18.2,28,underhyped_hidden_gem
+investment decision,Business Finance,0,17.55,27,underhyped_hidden_gem
+marketing meaning,Marketing,0,16.9,26,underhyped_hidden_gem
+promotion,Marketing,0,16.9,26,underhyped_hidden_gem
+techniques of scientific management,Principles of Management,0,16.25,25,underhyped_hidden_gem
+Maslow hierarchy,Directing,0,15.6,24,underhyped_hidden_gem
+features of management,Nature and Significance of Management,0,15.6,24,underhyped_hidden_gem
+meaning and features,Business Environment,0,14.95,23,underhyped_hidden_gem
+relationship with planning,Controlling,0,14.95,23,underhyped_hidden_gem

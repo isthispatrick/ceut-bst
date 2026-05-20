@@ -1,0 +1,143 @@
+{
+  "subject": "CUET UG Business Studies",
+  "subject_code": "305",
+  "taxonomy_source": "NTA CUET Business Studies syllabus",
+  "units": [
+    {
+      "unit": "Unit I",
+      "chapter": "Nature and Significance of Management",
+      "subtopics": {
+        "meaning and objectives": ["management", "objectives", "organisational objectives", "social objectives", "personal objectives"],
+        "features of management": ["features", "goal oriented", "pervasive", "multidimensional", "continuous process", "group activity", "dynamic function"],
+        "importance of management": ["importance", "efficiency", "effectiveness", "dynamic organisation", "personal objectives"],
+        "levels of management": ["top level", "middle level", "supervisory", "operational management", "levels of management"],
+        "functions of management": ["planning", "organising", "staffing", "directing", "controlling", "coordination"],
+        "coordination": ["coordination", "essence of management", "integrates group efforts"]
+      }
+    },
+    {
+      "unit": "Unit II",
+      "chapter": "Principles of Management",
+      "subtopics": {
+        "nature of principles": ["principles of management", "general guidelines", "flexible", "contingent", "behavioural"],
+        "Fayol principles": ["fayol", "division of work", "authority", "discipline", "unity of command", "unity of direction", "scalar chain", "esprit de corps"],
+        "Taylor scientific management": ["taylor", "scientific management", "mental revolution", "science not rule of thumb", "harmony not discord"],
+        "techniques of scientific management": ["functional foremanship", "standardisation", "simplification", "method study", "motion study", "time study", "fatigue study", "differential piece wage"]
+      }
+    },
+    {
+      "unit": "Unit III",
+      "chapter": "Business Environment",
+      "subtopics": {
+        "meaning and features": ["business environment", "specific forces", "general forces", "dynamic", "uncertainty", "complexity"],
+        "importance of environment": ["early warning", "opportunities", "threats", "coping with rapid changes", "planning and policy"],
+        "dimensions": ["economic environment", "social environment", "technological environment", "political environment", "legal environment"],
+        "liberalisation privatisation globalisation": ["liberalisation", "privatisation", "globalisation", "lpg", "new economic policy", "demonetisation"]
+      }
+    },
+    {
+      "unit": "Unit IV",
+      "chapter": "Planning",
+      "subtopics": {
+        "meaning and features": ["planning", "primary function", "intellectual process", "future oriented", "pervasive"],
+        "importance": ["importance of planning", "reduces uncertainty", "reduces overlapping", "innovative ideas", "decision making"],
+        "limitations": ["limitations of planning", "rigidity", "dynamic environment", "creativity", "time consuming", "false sense of security"],
+        "planning process": ["setting objectives", "developing premises", "identifying alternatives", "evaluating alternatives", "selecting an alternative", "implementing plan", "follow up"],
+        "types of plans": ["objectives", "strategy", "policy", "procedure", "method", "rule", "programme", "budget"]
+      }
+    },
+    {
+      "unit": "Unit V",
+      "chapter": "Organising",
+      "subtopics": {
+        "meaning and process": ["organising", "identification of activities", "departmentalisation", "assignment of duties", "reporting relationships"],
+        "importance": ["benefits of specialisation", "clarity in working relationships", "optimum utilisation", "adaptation to change", "effective administration"],
+        "organisation structure": ["organisation structure", "span of management", "functional structure", "divisional structure"],
+        "formal and informal organisation": ["formal organisation", "informal organisation", "grapevine", "official relationships"],
+        "delegation": ["delegation", "authority", "responsibility", "accountability", "absoluteness of accountability"],
+        "decentralisation": ["decentralisation", "centralisation", "decision making authority", "initiative"]
+      }
+    },
+    {
+      "unit": "Unit VI",
+      "chapter": "Staffing",
+      "subtopics": {
+        "meaning and importance": ["staffing", "human resource management", "manpower", "competent personnel"],
+        "staffing process": ["estimating manpower requirements", "recruitment", "selection", "placement", "orientation", "training", "performance appraisal", "promotion", "compensation"],
+        "recruitment": ["internal sources", "external sources", "transfer", "promotion", "advertisement", "employment exchange", "campus recruitment"],
+        "selection": ["selection", "employment test", "interview", "medical examination", "reference check", "job offer"],
+        "training and development": ["training", "development", "apprenticeship", "internship", "vestibule training", "job rotation", "case study"]
+      }
+    },
+    {
+      "unit": "Unit VII",
+      "chapter": "Directing",
+      "subtopics": {
+        "meaning and importance": ["directing", "supervision", "motivation", "leadership", "communication", "integrates efforts"],
+        "supervision": ["supervision", "supervisor", "linking pin", "guidance"],
+        "motivation": ["motivation", "motive", "incentive", "positive motivation", "negative motivation", "financial incentives", "non financial incentives"],
+        "Maslow hierarchy": ["maslow", "physiological", "safety", "belongingness", "esteem", "self actualisation"],
+        "leadership": ["leadership", "leader", "autocratic", "democratic", "laissez faire", "qualities of leader"],
+        "communication": ["communication", "encoding", "decoding", "feedback", "formal communication", "informal communication", "barriers", "semantic", "psychological", "organisational", "personal"]
+      }
+    },
+    {
+      "unit": "Unit VIII",
+      "chapter": "Controlling",
+      "subtopics": {
+        "meaning and importance": ["controlling", "standards", "deviation", "corrective action", "goal oriented"],
+        "relationship with planning": ["planning and controlling", "interdependent", "forward looking", "backward looking"],
+        "control process": ["setting performance standards", "measurement of performance", "comparing performance", "analysing deviations", "critical point control", "management by exception", "corrective action"]
+      }
+    },
+    {
+      "unit": "Unit IX",
+      "chapter": "Business Finance",
+      "subtopics": {
+        "financial management": ["financial management", "wealth maximisation", "profit maximisation", "financial decisions"],
+        "investment decision": ["investment decision", "capital budgeting", "fixed assets", "risk", "cash flows"],
+        "financing decision": ["financing decision", "capital structure", "debt", "equity", "financial risk", "cost of capital"],
+        "dividend decision": ["dividend decision", "retained earnings", "shareholders"],
+        "financial planning": ["financial planning", "forecasting", "fund requirement", "availability of funds"],
+        "fixed capital": ["fixed capital", "nature of business", "scale of operations", "technology upgradation", "financing alternatives"],
+        "working capital": ["working capital", "operating cycle", "raw material", "inventory", "receivables", "credit policy"]
+      }
+    },
+    {
+      "unit": "Unit X",
+      "chapter": "Marketing",
+      "subtopics": {
+        "marketing meaning": ["marketing", "market", "customer needs", "exchange mechanism", "marketing management"],
+        "marketing vs selling": ["selling", "marketing vs selling", "customer satisfaction", "profit through sales volume"],
+        "marketing management philosophies": ["production concept", "product concept", "selling concept", "marketing concept", "societal marketing"],
+        "marketing mix": ["marketing mix", "four ps", "product", "price", "place", "promotion"],
+        "product": ["product", "branding", "brand name", "brand mark", "trademark", "labelling", "packaging"],
+        "pricing": ["pricing", "price", "price mix", "skimming", "penetration"],
+        "channels of distribution": ["channel of distribution", "middlemen", "wholesaler", "retailer", "physical distribution"],
+        "promotion": ["promotion", "advertising", "personal selling", "sales promotion", "public relations"]
+      }
+    },
+    {
+      "unit": "Unit XI",
+      "chapter": "Consumer Protection",
+      "subtopics": {
+        "importance": ["consumer protection", "consumer interest", "business responsibility", "consumer awareness"],
+        "consumer rights": ["right to safety", "right to be informed", "right to choose", "right to be heard", "right to seek redressal", "right to consumer education"],
+        "consumer responsibilities": ["consumer responsibilities", "quality marks", "cash memo", "complaint"],
+        "legal redressal": ["consumer protection act", "district commission", "state commission", "national commission", "redressal"],
+        "NGOs and relief": ["non-government organisation", "ngo", "consumer organisation", "relief", "compensation"]
+      }
+    },
+    {
+      "unit": "Unit XII",
+      "chapter": "Entrepreneurship Development",
+      "subtopics": {
+        "concept and functions": ["entrepreneurship", "entrepreneur", "risk bearing", "innovation", "organisation building"],
+        "need and characteristics": ["need for entrepreneurship", "characteristics", "initiative", "confidence", "creativity", "perseverance"],
+        "competencies and values": ["entrepreneurial competencies", "values", "motivation", "achievement", "problem solving"],
+        "process": ["sensing opportunity", "environment scanning", "feasibility study", "business plan", "enterprise launch", "growth"],
+        "entrepreneurship in India": ["startup", "msme", "self employment", "economic development"]
+      }
+    }
+  ]
+}

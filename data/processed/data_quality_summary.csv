@@ -1,0 +1,9 @@
+metric,value
+total_parsed_rows,1773.0
+unique_questions_after_dedupe,1730.0
+duplicate_rate_percent,2.43
+official_source_rows,0.0
+third_party_source_rows,1773.0
+low_confidence_classifications_lt_075,909.0
+manual_review_queue_count,909.0
+source_tier_structured_pyq_site,1773.0
