@@ -774,7 +774,9 @@ function AiResult({ result }) {
     <div className="ai-result">
       <article>
         <h3>Answer</h3>
-        <div className="ai-answer">{answer}</div>
+        <div className="ai-answer">
+          <MarkdownLite text={answer} />
+        </div>
       </article>
       {evidence?.chart && <ChartRenderer chart={evidence.chart} />}
       {evidence && (
@@ -804,6 +806,47 @@ function AiResult({ result }) {
       )}
     </div>
   );
+}
+
+function MarkdownLite({ text }) {
+  return String(text || '')
+    .split(/\n{2,}/)
+    .filter((block) => block.trim())
+    .map((block, index) => {
+      const trimmed = block.trim();
+      const heading = trimmed.match(/^\*\*(.+):?\*\*$/);
+      if (heading) return <h4 key={index}>{heading[1].replace(/:$/, '')}</h4>;
+
+      const lines = trimmed.split('\n').filter(Boolean);
+      const isList = lines.every((line) => /^(\d+\.|-)\s+/.test(line.trim()));
+      if (isList) {
+        return (
+          <ul key={index}>
+            {lines.map((line, lineIndex) => (
+              <li key={lineIndex}>
+                <InlineMarkdown text={line.replace(/^(\d+\.|-)\s+/, '')} />
+              </li>
+            ))}
+          </ul>
+        );
+      }
+
+      return (
+        <p key={index}>
+          <InlineMarkdown text={trimmed} />
+        </p>
+      );
+    });
+}
+
+function InlineMarkdown({ text }) {
+  const parts = String(text || '').split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>;
+    }
+    return <React.Fragment key={index}>{part}</React.Fragment>;
+  });
 }
 
 function ChartRenderer({ chart }) {

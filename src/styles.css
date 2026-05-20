@@ -511,9 +511,31 @@ td {
 }
 
 .ai-answer {
-  white-space: pre-wrap;
   color: #263241;
   line-height: 1.55;
+}
+
+.ai-answer h4 {
+  margin: 16px 0 6px;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.ai-answer h4:first-child {
+  margin-top: 0;
+}
+
+.ai-answer p {
+  margin: 0 0 12px;
+}
+
+.ai-answer ul {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+
+.ai-answer li {
+  margin: 5px 0;
 }
 
 .evidence {

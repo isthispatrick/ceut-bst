@@ -46,7 +46,9 @@ def chat_completion(
     api_key = configured_api_key()
     if not api_key:
         raise RuntimeError("No LLM API key configured. Set HACKCLUB_AI_API_KEY, CUET_LLM_API_KEY, or OPENAI_API_KEY.")
-    response = requests.post(
+    session = requests.Session()
+    session.trust_env = False
+    response = session.post(
         f"{configured_base_url()}/chat/completions",
         headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
         json={

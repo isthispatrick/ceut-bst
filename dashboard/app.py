@@ -412,7 +412,7 @@ def ask_ai_page(data: pd.DataFrame) -> None:
         ]
     for message in st.session_state.ai_chat_messages:
         with st.chat_message(message["role"]):
-            st.write(message["content"])
+            st.markdown(message["content"])
     prompt = st.chat_input("Ask about this CUET BST analysis")
     if not prompt:
         return
@@ -428,7 +428,7 @@ def ask_ai_page(data: pd.DataFrame) -> None:
                 answer = answer_question(prompt, evidence)
             except Exception as exc:
                 answer = f"AI assistant failed: {exc}"
-            st.write(answer)
+            st.markdown(answer)
             if "evidence" in locals() and evidence.chart is not None:
                 render_chart_spec(evidence.chart)
             if "evidence" in locals():
@@ -553,7 +553,7 @@ def study_command_center_page(data: pd.DataFrame) -> None:
             from cuet_bst.dashboard_agent import answer_question, build_evidence, load_analysis_tables
 
             evidence = build_evidence(question, load_analysis_tables())
-            st.write(answer_question(question, evidence))
+            st.markdown(answer_question(question, evidence))
             if evidence.chart is not None:
                 render_chart_spec(evidence.chart)
             render_evidence(evidence)
