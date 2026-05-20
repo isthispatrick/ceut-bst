@@ -67,6 +67,10 @@ function topRows(rows, count, scoreKey) {
 
 function App() {
   const [query, setQuery] = useState('');
+  const [aiQuestion, setAiQuestion] = useState('What should I study first and why?');
+  const [aiResult, setAiResult] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
   const filteredPriority = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return studyPriority;
@@ -78,6 +82,28 @@ function App() {
   const topClusters = topRows(clusters, 12, 'weighted_score');
   const silverStatus = accuracy.filter((row) => row.metric.startsWith('pipeline_vs_silver'));
   const humanStatus = accuracy.find((row) => row.metric === 'pipeline_vs_human_gold_status')?.value;
+
+  async function askAi(event) {
+    event.preventDefault();
+    if (!aiQuestion.trim()) return;
+    setAiLoading(true);
+    setAiError('');
+    setAiResult(null);
+    try {
+      const response = await fetch('/api/ask-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: aiQuestion })
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || 'Ask AI failed');
+      setAiResult(payload);
+    } catch (error) {
+      setAiError(error.message);
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
   return (
     <main className="shell">
@@ -121,6 +147,42 @@ function App() {
         <Panel title="Highest ROI Topics" icon={<TrendingUp size={20} />}>
           <TopicTable rows={highRoi} score="roi" />
         </Panel>
+      </section>
+
+      <section className="panel">
+        <div className="panel-title">
+          <BarChart3 size={20} />
+          <h2>Ask AI Analyst</h2>
+        </div>
+        <p className="muted">
+          This uses a Vercel serverless function. Your API key stays on the server, and the assistant can only read approved
+          analysis CSVs.
+        </p>
+        <form className="ask-form" onSubmit={askAi}>
+          <input
+            className="search"
+            value={aiQuestion}
+            onChange={(event) => setAiQuestion(event.target.value)}
+            placeholder="Try: show top 10 topics by weighted score"
+          />
+          <button className="button primary dark" type="submit" disabled={aiLoading}>
+            {aiLoading ? 'Thinking...' : 'Ask AI'}
+          </button>
+        </form>
+        <div className="quick-prompts">
+          {[
+            'show top 10 topics by weighted score',
+            'compare Marketing and Business Finance',
+            'show chapter frequency',
+            'show suspicious classifications by chapter'
+          ].map((prompt) => (
+            <button key={prompt} type="button" onClick={() => setAiQuestion(prompt)}>
+              {prompt}
+            </button>
+          ))}
+        </div>
+        {aiError && <p className="error">{aiError}</p>}
+        {aiResult && <AiResult result={aiResult} />}
       </section>
 
       <section className="grid two">
@@ -257,6 +319,100 @@ function BarList({ rows, labelKey, valueKey, metaKey }) {
           </article>
         );
       })}
+    </div>
+  );
+}
+
+function AiResult({ result }) {
+  const { answer, evidence } = result;
+  return (
+    <div className="ai-result">
+      <article>
+        <h3>Answer</h3>
+        <div className="ai-answer">{answer}</div>
+      </article>
+      {evidence?.chart && <ChartRenderer chart={evidence.chart} />}
+      {evidence && (
+        <article>
+          <h3>Evidence</h3>
+          <dl className="evidence">
+            <div>
+              <dt>Files used</dt>
+              <dd>{(evidence.filesUsed || []).join(', ')}</dd>
+            </div>
+            <div>
+              <dt>Confidence</dt>
+              <dd>{evidence.confidenceLevel}</dd>
+            </div>
+            <div>
+              <dt>Numbers</dt>
+              <dd>
+                <code>{JSON.stringify(evidence.numbersUsed || {})}</code>
+              </dd>
+            </div>
+            <div>
+              <dt>Caveats</dt>
+              <dd>{(evidence.caveats || []).join(' ')}</dd>
+            </div>
+          </dl>
+        </article>
+      )}
+    </div>
+  );
+}
+
+function ChartRenderer({ chart }) {
+  if (chart.chartType === 'table') {
+    return (
+      <article>
+        <h3>{chart.title}</h3>
+        <SimpleTable rows={chart.data || []} />
+      </article>
+    );
+  }
+
+  if (chart.chartType === 'pie') {
+    const total = (chart.data || []).reduce((sum, row) => sum + numeric(row[chart.y]), 0) || 1;
+    return (
+      <article>
+        <h3>{chart.title}</h3>
+        <div className="pie-list">
+          {(chart.data || []).map((row) => (
+            <div key={row[chart.x]}>
+              <span>{row[chart.x]}</span>
+              <b>{row[chart.y]}</b>
+              <i style={{ width: `${(numeric(row[chart.y]) / total) * 100}%` }} />
+            </div>
+          ))}
+        </div>
+      </article>
+    );
+  }
+
+  return (
+    <article>
+      <h3>{chart.title}</h3>
+      <BarList rows={chart.data || []} labelKey={chart.y} valueKey={chart.x} metaKey={chart.color || chart.y} />
+    </article>
+  );
+}
+
+function SimpleTable({ rows }) {
+  const columns = Object.keys(rows[0] || {}).slice(0, 6);
+  return (
+    <div className="table-wrap">
+      <table>
+        <thead>
+          <tr>{columns.map((column) => <th key={column}>{column}</th>)}</tr>
+        </thead>
+        <tbody>
+          {rows.slice(0, 20).map((row, index) => (
+            <tr key={index}>
+              {columns.map((column) => <td key={column}>{row[column]}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

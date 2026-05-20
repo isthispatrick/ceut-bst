@@ -93,6 +93,19 @@ h1 {
   border-color: white;
 }
 
+.button.dark {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  min-width: 120px;
+  justify-content: center;
+}
+
+.button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
 .hero-metrics {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -249,6 +262,108 @@ h2 {
   border-radius: 8px;
 }
 
+.ask-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  margin-top: 14px;
+}
+
+.quick-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.quick-prompts button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #f8fafc;
+  padding: 7px 10px;
+  color: #344054;
+}
+
+.ai-result {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.ai-result article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fbfcfe;
+}
+
+.ai-result h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.ai-answer {
+  white-space: pre-wrap;
+  line-height: 1.55;
+  color: #263241;
+}
+
+.evidence {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.evidence div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.evidence dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.evidence dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.evidence code {
+  white-space: normal;
+}
+
+.error {
+  color: #9f1239;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.pie-list {
+  display: grid;
+  gap: 10px;
+}
+
+.pie-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.pie-list i {
+  grid-column: 1 / -1;
+  display: block;
+  height: 9px;
+  background: var(--accent);
+  border-radius: 999px;
+}
+
 .table-wrap {
   overflow: auto;
   border: 1px solid var(--line);
@@ -301,7 +416,8 @@ th {
 
 @media (max-width: 840px) {
   .hero,
-  .grid.two {
+  .grid.two,
+  .ask-form {
     grid-template-columns: 1fr;
   }
 
