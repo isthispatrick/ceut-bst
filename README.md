@@ -78,6 +78,7 @@ It is scoped to Computer Science only: Section A plus Section B1 from the offici
 ```powershell
 python scripts/init_cuet_cs.py
 python scripts/collect_cuet_cs_data.py
+python scripts/generate_cuet_cs_mocks.py
 streamlit run dashboard/cuet_cs_app.py --server.port 8503
 ```
 
@@ -106,6 +107,11 @@ CS evidence importer outputs:
 - `data/cuet_cs/processed/internet_evidence_summary.csv`
 - `data/cuet_cs/processed/answer_key_entries.csv`
 - `data/cuet_cs/processed/questions_advanced.csv`
+
+Mock practice outputs:
+
+- `data/cuet_cs/processed/practice_question_bank.csv`
+- `data/cuet_cs/processed/mock_blueprint.csv`
 
 The dashboard reads:
 

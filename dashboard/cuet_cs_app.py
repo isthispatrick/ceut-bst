@@ -160,6 +160,125 @@ def raw_questions_page() -> None:
     st.dataframe(filtered(questions), use_container_width=True, height=650)
 
 
+def mock_practice_page() -> None:
+    st.subheader("Interactive CUET CS Mock Practice")
+    bank = load_csv("practice_question_bank.csv")
+    blueprint = load_csv("mock_blueprint.csv")
+    if bank.empty:
+        st.info("Run `python scripts/generate_cuet_cs_mocks.py` to create the practice bank.")
+        return
+    st.warning(
+        "These are CUET-style practice questions generated from the CS-only syllabus priority model and imported paper structure. "
+        "They are not exact PYQs because the public PDFs do not expose machine-readable question text yet."
+    )
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Practice questions", len(bank))
+    c2.metric("Tier 1/Core", int(bank["priority_tier"].astype(str).str.contains("Tier 1", case=False, na=False).sum()))
+    c3.metric("Chapters", bank["chapter"].nunique())
+    c4.metric("Question types", bank["question_type"].nunique())
+
+    chapters = sorted(bank["chapter"].dropna().astype(str).unique())
+    selected_chapters = st.multiselect("Focus chapters", chapters, default=chapters)
+    mode = st.radio("Mock type", ["quick", "focused", "full_cuet_style"], horizontal=True)
+    seed = st.number_input("Shuffle seed", min_value=1, max_value=9999, value=305)
+    filtered_bank = bank[bank["chapter"].astype(str).isin(selected_chapters)].copy()
+    if filtered_bank.empty:
+        st.info("Select at least one chapter.")
+        return
+    mock_questions = build_mock(filtered_bank, blueprint, mode, int(seed))
+    st.caption(f"Loaded {len(mock_questions)} questions. Full CUET-style mode targets 15 Section A + 25 Section B1 when enough questions are available.")
+
+    with st.form("cuet_cs_mock_form"):
+        answers = {}
+        for index, row in mock_questions.reset_index(drop=True).iterrows():
+            st.markdown(f"**Q{index + 1}. [{row['chapter']} -> {row['subtopic']}]**")
+            st.write(row["question_text"])
+            options = {
+                "A": row["option_a"],
+                "B": row["option_b"],
+                "C": row["option_c"],
+                "D": row["option_d"],
+            }
+            answers[row["practice_id"]] = st.radio(
+                "Choose one",
+                ["Not answered", "A", "B", "C", "D"],
+                format_func=lambda value, opts=options: value if value == "Not answered" else f"{value}. {opts[value]}",
+                key=f"mock_{row['practice_id']}",
+            )
+            st.divider()
+        submitted = st.form_submit_button("Submit mock")
+
+    if submitted:
+        review_rows = []
+        correct = 0
+        attempted = 0
+        for _, row in mock_questions.iterrows():
+            chosen = answers.get(row["practice_id"], "Not answered")
+            is_attempted = chosen != "Not answered"
+            is_correct = chosen == row["correct_option"]
+            attempted += int(is_attempted)
+            correct += int(is_correct)
+            review_rows.append(
+                {
+                    "chapter": row["chapter"],
+                    "subtopic": row["subtopic"],
+                    "chosen": chosen,
+                    "correct": row["correct_option"],
+                    "result": "correct" if is_correct else ("skipped" if not is_attempted else "wrong"),
+                    "explanation": row["explanation"],
+                    "priority_tier": row["priority_tier"],
+                }
+            )
+        score = correct * 5 - (attempted - correct) * 1
+        max_score = len(mock_questions) * 5
+        st.success(f"Score: {score} / {max_score} | Correct: {correct} | Attempted: {attempted} | Accuracy: {(correct / attempted * 100) if attempted else 0:.1f}%")
+        review = pd.DataFrame(review_rows)
+        st.plotly_chart(px.histogram(review, y="chapter", color="result", title="Mock Result By Chapter"), use_container_width=True)
+        weak = review[review["result"].isin(["wrong", "skipped"])]
+        if not weak.empty:
+            st.subheader("What To Practice Next")
+            st.dataframe(weak[["chapter", "subtopic", "result", "explanation", "priority_tier"]], use_container_width=True, height=360)
+        st.subheader("Full Review")
+        st.dataframe(review, use_container_width=True, height=520)
+
+
+def build_mock(bank: pd.DataFrame, blueprint: pd.DataFrame, mode: str, seed: int) -> pd.DataFrame:
+    row = blueprint[blueprint["mock_type"].astype(str).eq(mode)]
+    if row.empty:
+        total, section_a_count, section_b_count = 10, 4, 6
+    else:
+        total = int(row.iloc[0]["questions"])
+        section_a_count = int(row.iloc[0]["section_a"])
+        section_b_count = int(row.iloc[0]["section_b1"])
+    rng = random_state(seed)
+    section_a = bank[bank["section"].astype(str).eq("Section A Common Core")]
+    section_b = bank[bank["section"].astype(str).eq("Section B1 Computer Science")]
+    picked = pd.concat(
+        [
+            weighted_sample(section_a, min(section_a_count, len(section_a)), rng),
+            weighted_sample(section_b, min(section_b_count, len(section_b)), rng),
+        ],
+        ignore_index=True,
+    )
+    if len(picked) < total:
+        remaining = bank[~bank["practice_id"].isin(set(picked["practice_id"]))]
+        picked = pd.concat([picked, weighted_sample(remaining, min(total - len(picked), len(remaining)), rng)], ignore_index=True)
+    return picked.sample(frac=1, random_state=seed).reset_index(drop=True)
+
+
+def weighted_sample(data: pd.DataFrame, count: int, rng) -> pd.DataFrame:
+    if data.empty or count <= 0:
+        return data.head(0)
+    weights = pd.to_numeric(data.get("raw_score", 1), errors="coerce").fillna(1).clip(lower=0.1)
+    return data.sample(n=min(count, len(data)), replace=False, weights=weights, random_state=rng.randint(1, 1_000_000))
+
+
+def random_state(seed: int):
+    import random
+
+    return random.Random(seed)
+
+
 def internet_evidence_page() -> None:
     st.subheader("Internet Evidence")
     summary = load_csv("internet_evidence_summary.csv")
@@ -288,6 +407,7 @@ def main() -> None:
         "Source Discovery": source_page,
         "Internet Evidence": internet_evidence_page,
         "Raw Question Explorer": raw_questions_page,
+        "Mock Practice": mock_practice_page,
         "Study Plan": study_plan_page,
         "Ask AI": ask_ai_page,
     }
