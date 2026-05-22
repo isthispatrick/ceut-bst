@@ -1,0 +1,12 @@
+metric,value
+subject_code,308
+subject_name,Computer Science / Information Practices
+total_parsed_rows,0
+unique_questions_after_dedupe,0
+duplicate_rate_percent,0
+official_source_rows,0
+third_party_source_rows,0
+syllabus_topics,106
+chapters,17
+configured_sources,9
+data_status,Initialized from official syllabus taxonomy; PYQ collection not run yet.

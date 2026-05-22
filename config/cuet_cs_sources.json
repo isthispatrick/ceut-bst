@@ -1,0 +1,69 @@
+{
+  "subject_code": "308",
+  "subject_name": "Computer Science / Information Practices",
+  "sources": [
+    {
+      "name": "NTA CUET official syllabus page",
+      "url": "https://cuet.nta.nic.in/syllabus/",
+      "type": "official_syllabus_page",
+      "priority": 1.0
+    },
+    {
+      "name": "Official CUET Computer Science / Information Practices syllabus PDF",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf",
+      "type": "official_syllabus_pdf",
+      "priority": 1.0
+    },
+    {
+      "name": "NTA exam paper download archive",
+      "url": "https://nta.ac.in/Download/ExamPaper/",
+      "type": "official_question_archive",
+      "priority": 1.0
+    },
+    {
+      "name": "AglaSem CUET 2025 Computer Science / Informatics Practices question paper",
+      "url": "https://admission.aglasem.com/cuet-2025-question-paper-computer-sciences-informatics-practices/",
+      "type": "structured_pyq_page",
+      "priority": 0.65
+    },
+    {
+      "name": "AglaSem CUET previous year question papers",
+      "url": "https://admission.aglasem.com/cuet-question-papers/",
+      "type": "structured_pyq_index",
+      "priority": 0.65
+    },
+    {
+      "name": "CUET Academy Computer Science previous year paper page",
+      "url": "https://cuetacademy.online/cuet-computer-science-previous-year-question-paper-with-answer-pdf-download/",
+      "type": "structured_pyq_page",
+      "priority": 0.65
+    },
+    {
+      "name": "Collegedunia CUET 2022 Computer Science / Informatics Practices paper",
+      "url": "https://collegedunia.com/news/e-1361-cuet-2022-computer-science-informatics-practices-question-paper",
+      "type": "structured_pyq_page",
+      "priority": 0.65
+    },
+    {
+      "name": "Testbook CUET previous year papers",
+      "url": "https://testbook.com/cuet/previous-year-papers",
+      "type": "structured_pyq_index",
+      "priority": 0.65
+    },
+    {
+      "name": "CareerLauncher CUET previous year papers",
+      "url": "https://www.careerlauncher.com/cuet/previous-year-question-paper/",
+      "type": "structured_pyq_index",
+      "priority": 0.65
+    }
+  ],
+  "discovery_queries": [
+    "site:nta.ac.in/Download/ExamPaper \"Computer Science\" \"CUET\"",
+    "site:nta.ac.in/Download/ExamPaper \"Informatics Practices\" \"CUET\"",
+    "\"CUET Computer Science Informatics Practices previous year question paper PDF\"",
+    "\"CUET Computer Science PYQ 2022 2023 2024 2025\"",
+    "\"CUET UG Computer Science Informatics Practices answer key\"",
+    "site:reddit.com/r/CUETards \"Computer Science\" \"CUET\"",
+    "site:reddit.com/r/CUETards \"Informatics Practices\" \"CUET\""
+  ]
+}

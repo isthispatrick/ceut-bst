@@ -70,6 +70,33 @@ python scripts/analyze_advanced.py
 streamlit run dashboard/app.py
 ```
 
+## CUET Computer Science / Informatics Practices Dashboard
+
+This repo also includes a parallel Streamlit dashboard for CUET UG Computer Science / Information Practices, subject code `308`.
+It starts from the official NTA syllabus taxonomy and keeps PYQ-frequency fields conservative until CS/IP papers are imported and parsed.
+
+```powershell
+python scripts/init_cuet_cs.py
+streamlit run dashboard/cuet_cs_app.py --server.port 8503
+```
+
+The CS/IP dashboard reads and writes under:
+
+```text
+data/cuet_cs/raw/
+data/cuet_cs/manual_imports/
+data/cuet_cs/manual_official_papers/
+data/cuet_cs/processed/
+reports/cuet_cs/
+```
+
+Official source used for the initial taxonomy:
+
+- NTA syllabus page: https://cuet.nta.nic.in/syllabus/
+- Computer Science / Information Practices - 308 PDF: https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf
+
+The CS/IP dashboard currently provides syllabus-overlap study priority, source discovery, manual-import folders, question-format strategy, and an Ask AI page. It does not invent historical frequency until actual PYQs are parsed into `data/cuet_cs/processed/questions_advanced.csv`.
+
 The dashboard reads:
 
 - `data/processed/questions_advanced.csv`
