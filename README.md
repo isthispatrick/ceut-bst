@@ -115,6 +115,13 @@ Mock practice outputs:
 
 The Streamlit mock page now defaults to a fresh adaptive full mock from the expanded CS question bank. It uses one-question navigation, a question palette, CUET-style scoring, score verdicts, and post-test weak-topic analysis. It avoids recently attempted questions when enough fresh questions are available. The exported PDF paper remains available as a separate practice option. Your personal attempts are saved locally to `data/cuet_cs/processed/mock_attempts.csv`, which is ignored by git so your weak-topic history stays on your machine.
 
+Optional TimesFM forecasting:
+
+- The CS dashboard includes a `TimesFM Forecast` page for forecasting your own mock-score trend from saved attempts.
+- By default it uses a local trend fallback so the dashboard remains lightweight.
+- To use Google's TimesFM model locally, run `pip install -r requirements-timesfm.txt`, set `CUET_USE_TIMESFM=true`, and restart Streamlit.
+- TimesFM forecasts your practice trajectory only. It is not used to claim certainty about future CUET questions.
+
 The dashboard reads:
 
 - `data/processed/questions_advanced.csv`

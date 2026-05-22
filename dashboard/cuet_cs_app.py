@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 
@@ -77,6 +78,30 @@ def show_data_status() -> None:
         f"<div class='cs-warning'><b>Data status:</b> {status} This dashboard is CS-only: Section A + Section B1. Frequency and prediction-style scores stay conservative until CS PYQs are imported and parsed.</div>",
         unsafe_allow_html=True,
     )
+
+
+def mock_session_summary(attempts: pd.DataFrame) -> pd.DataFrame:
+    if attempts.empty:
+        return pd.DataFrame()
+    data = attempts.copy()
+    for column in ["attempted", "is_correct", "score_delta"]:
+        data[column] = pd.to_numeric(data.get(column, 0), errors="coerce").fillna(0)
+    grouped = data.groupby("session_id", dropna=False).agg(
+        attempted_at=("attempted_at", "first"),
+        mock_type=("mock_type", "first"),
+        questions=("practice_id", "count"),
+        attempted=("attempted", "sum"),
+        correct=("is_correct", "sum"),
+        score=("score_delta", "sum"),
+    ).reset_index()
+    grouped["attempted_at"] = pd.to_datetime(grouped["attempted_at"], errors="coerce")
+    grouped = grouped.sort_values("attempted_at")
+    grouped["max_score"] = grouped["questions"] * 5
+    grouped["score_percent"] = grouped.apply(lambda row: row["score"] / row["max_score"] * 100 if row["max_score"] else 0, axis=1)
+    grouped["accuracy"] = grouped.apply(lambda row: row["correct"] / row["attempted"] * 100 if row["attempted"] else 0, axis=1)
+    grouped["attempt_rate"] = grouped.apply(lambda row: row["attempted"] / row["questions"] * 100 if row["questions"] else 0, axis=1)
+    grouped["mock_number"] = range(1, len(grouped) + 1)
+    return grouped
 
 
 def overview() -> None:
@@ -730,6 +755,88 @@ def study_plan_page() -> None:
                 st.caption(row["recommended_action"])
 
 
+def timesfm_forecast_page() -> None:
+    st.subheader("TimesFM Score Forecast")
+    st.caption("Forecasts your mock-score trend from saved mock attempts. This is for study planning, not CUET question prediction.")
+    attempts = load_attempts()
+    sessions = mock_session_summary(attempts)
+    if sessions.empty:
+        st.info("Take a few mocks first. TimesFM needs a time series, so this page starts working after saved attempts exist.")
+        return
+    st.dataframe(
+        sessions[["mock_number", "attempted_at", "mock_type", "score", "max_score", "score_percent", "accuracy", "attempt_rate"]],
+        use_container_width=True,
+        height=240,
+    )
+    horizon = st.slider("Forecast next N mocks", min_value=3, max_value=10, value=5)
+    use_timesfm = st.toggle("Try TimesFM if installed", value=False)
+    if use_timesfm:
+        st.info("This may download/load a large model the first time. Set `CUET_USE_TIMESFM=true` to enable the adapter.")
+    values = sessions["score_percent"].astype(float).tolist()
+    with temporary_env("CUET_USE_TIMESFM", "true" if use_timesfm else "false"):
+        from cuet_bst.timesfm_adapter import forecast_series
+
+        forecast = forecast_series(values, horizon=horizon)
+    future = pd.DataFrame(
+        {
+            "mock_number": list(range(len(values) + 1, len(values) + horizon + 1)),
+            "score_percent": forecast.get("forecast", []),
+            "lower": forecast.get("lower", []),
+            "upper": forecast.get("upper", []),
+        }
+    )
+    st.write(f"**Method:** `{forecast.get('method', 'unknown')}`")
+    st.caption(str(forecast.get("note", "")))
+    if forecast.get("timesfm_error"):
+        st.warning(f"TimesFM fallback used: {forecast['timesfm_error']}")
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=sessions["mock_number"], y=sessions["score_percent"], mode="lines+markers", name="Actual score %"))
+    if not future.empty:
+        fig.add_trace(go.Scatter(x=future["mock_number"], y=future["score_percent"], mode="lines+markers", name="Forecast score %"))
+        fig.add_trace(go.Scatter(x=future["mock_number"], y=future["upper"], mode="lines", name="Upper band", line=dict(width=0), showlegend=False))
+        fig.add_trace(
+            go.Scatter(
+                x=future["mock_number"],
+                y=future["lower"],
+                mode="lines",
+                name="Forecast band",
+                fill="tonexty",
+                line=dict(width=0),
+            )
+        )
+    fig.update_layout(title="Mock Score Trend Forecast", xaxis_title="Mock number", yaxis_title="Score %", yaxis_range=[0, 100])
+    st.plotly_chart(fig, use_container_width=True)
+    if not future.empty:
+        next_score = float(future.iloc[0]["score_percent"])
+        if next_score >= 75:
+            st.success("Trend looks strong. Keep practicing mixed full mocks and clean up skipped questions.")
+        elif next_score >= 55:
+            st.info("Trend is improving but not exam-safe yet. Use adaptive mocks and revise weak topics after each attempt.")
+        else:
+            st.warning("Trend is weak. Do focused revision before the next full mock, especially topics in Personal Coach.")
+
+
+class temporary_env:
+    def __init__(self, key: str, value: str):
+        self.key = key
+        self.value = value
+        self.old = None
+
+    def __enter__(self):
+        import os
+
+        self.old = os.environ.get(self.key)
+        os.environ[self.key] = self.value
+
+    def __exit__(self, *_):
+        import os
+
+        if self.old is None:
+            os.environ.pop(self.key, None)
+        else:
+            os.environ[self.key] = self.old
+
+
 def main() -> None:
     st.title("CUET UG Computer Science Dashboard")
     st.caption("Subject code 308. CS-only scope: Section A + Section B1 from the official syllabus.")
@@ -743,6 +850,7 @@ def main() -> None:
         "Raw Question Explorer": raw_questions_page,
         "Mock Practice": mock_practice_page,
         "Study Plan": study_plan_page,
+        "TimesFM Forecast": timesfm_forecast_page,
         "Ask AI": ask_ai_page,
     }
     choice = st.sidebar.radio("Page", list(pages.keys()))

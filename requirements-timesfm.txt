@@ -1,0 +1,4 @@
+# Optional heavy forecasting dependency for the dashboard's TimesFM Forecast page.
+# Install only if you want Google's TimesFM model locally:
+#   pip install -r requirements-timesfm.txt
+timesfm[torch]
