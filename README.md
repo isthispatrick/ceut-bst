@@ -77,6 +77,7 @@ It is scoped to Computer Science only: Section A plus Section B1 from the offici
 
 ```powershell
 python scripts/init_cuet_cs.py
+python scripts/collect_cuet_cs_data.py
 streamlit run dashboard/cuet_cs_app.py --server.port 8503
 ```
 
@@ -96,7 +97,15 @@ Official source used for the initial taxonomy:
 - Official subject 308 PDF: https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf
   - Dashboard uses Section A and Section B1 only.
 
-The CS dashboard currently provides syllabus-overlap study priority, source discovery, manual-import folders, question-format strategy, and an Ask AI page. It does not invent historical frequency until actual CS PYQs are parsed into `data/cuet_cs/processed/questions_advanced.csv`.
+The CS dashboard currently provides syllabus-overlap study priority, public PDF/answer-key import, source discovery, manual-import folders, question-format strategy, and an Ask AI page. It does not invent historical topic frequency when public PDFs expose only question IDs/answer keys but not machine-readable question text.
+
+CS evidence importer outputs:
+
+- `data/cuet_cs/processed/internet_import_manifest.csv`
+- `data/cuet_cs/processed/cs_extraction_manifest.csv`
+- `data/cuet_cs/processed/internet_evidence_summary.csv`
+- `data/cuet_cs/processed/answer_key_entries.csv`
+- `data/cuet_cs/processed/questions_advanced.csv`
 
 The dashboard reads:
 

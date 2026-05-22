@@ -1,12 +1,15 @@
 metric,value
 subject_code,308
 subject_name,Computer Science
-total_parsed_rows,0
-unique_questions_after_dedupe,0
+total_parsed_rows,219
+unique_questions_after_dedupe,219
 duplicate_rate_percent,0
-official_source_rows,0
-third_party_source_rows,0
+official_source_rows,850
+third_party_source_rows,219
 syllabus_topics,65
 chapters,11
 configured_sources,7
-data_status,CS-only initialization from official Section A + Section B1 syllabus. PYQ collection not run yet.
+data_status,Imported public CS papers/answer keys. Current papers expose question IDs/sections; most question text needs OCR/manual import before true topic frequency.
+downloaded_public_files,6
+answer_key_entries,850
+machine_readable_question_text_rows,0

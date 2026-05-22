@@ -26,6 +26,9 @@ data/raw/*.html
 data/raw/*.htm
 data/raw/*.bin
 data/raw/manifest.jsonl
+data/cuet_cs/raw/*.pdf
+data/cuet_cs/raw/**/*.pdf
+data/cuet_cs/processed/extracted_text/
 data/verified/golden_labels_ai.csv
 __pycache__/
 .venv/

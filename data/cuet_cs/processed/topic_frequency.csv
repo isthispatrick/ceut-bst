@@ -1,66 +1,66 @@
-chapter,subtopic,question_count,source_weighted_frequency,raw_score,data_status
-Structured Query Language I,text functions,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language II,COUNT star,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language II,GROUP BY HAVING ORDER BY,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language II,aggregate functions,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language II,date functions,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language II,union intersection minus cartesian product join,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,CREATE DROP ALTER,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,DDL DQL DML,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,INSERT UPDATE DELETE,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,SELECT FROM WHERE,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet
-Database Concepts,relational algebra selection projection union set difference cartesian product,0,0,4.9,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,MySQL database creation,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,SQL advantages,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,data types,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet
-Structured Query Language I,math functions,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet
-Database Concepts,candidate primary alternate foreign keys,0,0,4.65,cs_syllabus_heuristic_no_pyq_frequency_yet
-Database Concepts,database vs file system,0,0,4.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Database Concepts,domain tuple relation,0,0,4.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Database Concepts,relational model,0,0,4.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,DoS intrusion snooping eavesdropping,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,bandwidth and data transfer rate,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,firewall http https,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,protocols,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet
-Computer Networks,LAN WAN MAN,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet
-Computer Networks,MAC and IP address,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet
-Computer Networks,internet vs web,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet
-Computer Networks,network devices,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet
-Computer Networks,network evolution,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet
-Computer Networks,topologies,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet
-Stack,expression evaluation,0,0,4.05,cs_syllabus_heuristic_no_pyq_frequency_yet
-Stack,infix to postfix,0,0,4.05,cs_syllabus_heuristic_no_pyq_frequency_yet
-Stack,prefix infix postfix,0,0,4.05,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,communication types,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,switching techniques,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,viruses worms trojan spam cookies adware,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,wired media,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Data Communication and Security,wireless media,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet
-Sorting,collision resolution,0,0,3.95,cs_syllabus_heuristic_no_pyq_frequency_yet
-Sorting,dry run,0,0,3.95,cs_syllabus_heuristic_no_pyq_frequency_yet
-Sorting,insertion sort,0,0,3.85,cs_syllabus_heuristic_no_pyq_frequency_yet
-Sorting,selection sort,0,0,3.85,cs_syllabus_heuristic_no_pyq_frequency_yet
-Exception and File Handling in Python,file access modes,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Exception and File Handling in Python,pickle,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Exception and File Handling in Python,raise exceptions,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Exception and File Handling in Python,syntax errors and exceptions,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Exception and File Handling in Python,text and binary files,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Exception and File Handling in Python,try except else finally,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Exception and File Handling in Python,user-defined exceptions,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Searching,binary search,0,0,3.75,cs_syllabus_heuristic_no_pyq_frequency_yet
-Stack,LIFO,0,0,3.7,cs_syllabus_heuristic_no_pyq_frequency_yet
-Stack,list implementation,0,0,3.7,cs_syllabus_heuristic_no_pyq_frequency_yet
-Stack,push pop,0,0,3.7,cs_syllabus_heuristic_no_pyq_frequency_yet
-Queue,insert delete,0,0,3.65,cs_syllabus_heuristic_no_pyq_frequency_yet
-Sorting,bubble sort,0,0,3.6,cs_syllabus_heuristic_no_pyq_frequency_yet
-Sorting,hashing,0,0,3.6,cs_syllabus_heuristic_no_pyq_frequency_yet
-Queue,FIFO,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Queue,deque,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Queue,list implementation,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Searching,best worst average case,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Searching,python implementation,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Searching,sequential search,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet
-Understanding Data,data collection,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Understanding Data,data interpretation,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Understanding Data,mean median,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet
-Understanding Data,standard deviation variance,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet
+chapter,subtopic,question_count,source_weighted_frequency,raw_score,data_status,metadata_question_rows,answer_key_evidence_count,evidence_status
+Structured Query Language I,text functions,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language II,COUNT star,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language II,GROUP BY HAVING ORDER BY,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language II,aggregate functions,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language II,date functions,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language II,union intersection minus cartesian product join,0,0,5.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,CREATE DROP ALTER,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,DDL DQL DML,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,INSERT UPDATE DELETE,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,SELECT FROM WHERE,0,0,4.95,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Database Concepts,relational algebra selection projection union set difference cartesian product,0,0,4.9,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,MySQL database creation,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,SQL advantages,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,data types,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Structured Query Language I,math functions,0,0,4.7,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Database Concepts,candidate primary alternate foreign keys,0,0,4.65,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Database Concepts,database vs file system,0,0,4.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Database Concepts,domain tuple relation,0,0,4.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Database Concepts,relational model,0,0,4.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,DoS intrusion snooping eavesdropping,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,bandwidth and data transfer rate,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,firewall http https,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,protocols,0,0,4.25,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Computer Networks,LAN WAN MAN,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Computer Networks,MAC and IP address,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Computer Networks,internet vs web,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Computer Networks,network devices,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Computer Networks,network evolution,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Computer Networks,topologies,0,0,4.1,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Stack,expression evaluation,0,0,4.05,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Stack,infix to postfix,0,0,4.05,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Stack,prefix infix postfix,0,0,4.05,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,communication types,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,switching techniques,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,viruses worms trojan spam cookies adware,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,wired media,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Data Communication and Security,wireless media,0,0,4.0,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Sorting,collision resolution,0,0,3.95,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Sorting,dry run,0,0,3.95,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Sorting,insertion sort,0,0,3.85,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Sorting,selection sort,0,0,3.85,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Exception and File Handling in Python,file access modes,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Exception and File Handling in Python,pickle,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Exception and File Handling in Python,raise exceptions,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Exception and File Handling in Python,syntax errors and exceptions,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Exception and File Handling in Python,text and binary files,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Exception and File Handling in Python,try except else finally,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Exception and File Handling in Python,user-defined exceptions,0,0,3.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Searching,binary search,0,0,3.75,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Stack,LIFO,0,0,3.7,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Stack,list implementation,0,0,3.7,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Stack,push pop,0,0,3.7,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Queue,insert delete,0,0,3.65,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Sorting,bubble sort,0,0,3.6,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Sorting,hashing,0,0,3.6,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Queue,FIFO,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Queue,deque,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Queue,list implementation,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Searching,best worst average case,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Searching,python implementation,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Searching,sequential search,0,0,3.4,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Understanding Data,data collection,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Understanding Data,data interpretation,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Understanding Data,mean median,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior
+Understanding Data,standard deviation variance,0,0,2.8,cs_syllabus_heuristic_no_pyq_frequency_yet,219,850,metadata-only imported; topic counts remain syllabus prior

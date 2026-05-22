@@ -80,12 +80,13 @@ def overview() -> None:
     priority = load_csv("study_priority.csv")
     taxonomy = load_csv("syllabus_taxonomy.csv")
     show_data_status()
-    c1, c2, c3, c4, c5 = st.columns(5)
+    c1, c2, c3, c4, c5, c6 = st.columns(6)
     c1.metric("Subject code", metric_value(quality, "subject_code", "308"))
-    c2.metric("Parsed PYQ rows", metric_value(quality, "total_parsed_rows", 0))
-    c3.metric("Syllabus topics", metric_value(quality, "syllabus_topics", len(taxonomy)))
-    c4.metric("Chapters", metric_value(quality, "chapters", taxonomy.get("chapter", pd.Series(dtype=str)).nunique()))
-    c5.metric("Sources configured", metric_value(quality, "configured_sources", 0))
+    c2.metric("Question metadata rows", metric_value(quality, "total_parsed_rows", 0))
+    c3.metric("Answer-key entries", metric_value(quality, "answer_key_entries", 0))
+    c4.metric("Readable question text", metric_value(quality, "machine_readable_question_text_rows", 0))
+    c5.metric("Syllabus topics", metric_value(quality, "syllabus_topics", len(taxonomy)))
+    c6.metric("Chapters", metric_value(quality, "chapters", taxonomy.get("chapter", pd.Series(dtype=str)).nunique()))
 
     if not priority.empty:
         st.plotly_chart(px.bar(priority.head(25), x="raw_score", y="subtopic", color="chapter", orientation="h", title="Syllabus-Overlap Priority Until PYQs Are Parsed"), use_container_width=True)
@@ -131,11 +132,15 @@ def strategy_page() -> None:
 
 def source_page() -> None:
     sources = load_csv("source_discovery.csv")
+    manifest = load_csv("internet_import_manifest.csv")
     st.subheader("Public Source Discovery")
     st.caption("Use only public pages/PDFs. Do not bypass login, paywalls, CAPTCHA, anti-bot blocks, or NTA 403 restrictions.")
     if sources.empty:
         return
     st.dataframe(sources, use_container_width=True, height=520, column_config={"url": st.column_config.LinkColumn("url")})
+    if not manifest.empty:
+        st.subheader("Imported Public Files")
+        st.dataframe(manifest, use_container_width=True, height=320, column_config={"source_url": st.column_config.LinkColumn("source_url")})
     st.markdown(
         """
         Manual import folders:
@@ -153,6 +158,33 @@ def raw_questions_page() -> None:
         st.info("No parsed CUET Computer Science questions yet. Add public PDFs/CSVs to `data/cuet_cs/manual_imports/` and wire the parser when ready.")
         return
     st.dataframe(filtered(questions), use_container_width=True, height=650)
+
+
+def internet_evidence_page() -> None:
+    st.subheader("Internet Evidence")
+    summary = load_csv("internet_evidence_summary.csv")
+    questions = load_csv("questions_advanced.csv")
+    answers = load_csv("answer_key_entries.csv")
+    manifest = load_csv("internet_import_manifest.csv")
+    if summary.empty:
+        st.info("Run `python scripts/collect_cuet_cs_data.py` to import public CS evidence.")
+        return
+    cols = st.columns(6)
+    summary_map = dict(zip(summary["metric"], summary["value"]))
+    cols[0].metric("Public papers", summary_map.get("public_question_papers_imported", 0))
+    cols[1].metric("Question metadata", summary_map.get("question_metadata_rows", 0))
+    cols[2].metric("CS-section rows", summary_map.get("cs_section_question_rows", 0))
+    cols[3].metric("Answer keys", summary_map.get("answer_key_entries", 0))
+    cols[4].metric("Readable text rows", summary_map.get("machine_readable_question_text_rows", 0))
+    cols[5].metric("Topic validity", "blocked")
+    st.warning(str(summary_map.get("topic_frequency_validity", "Topic frequency needs readable question text.")))
+    if not questions.empty:
+        st.plotly_chart(px.histogram(questions, x="year", color="section_scope", title="Imported Question Metadata By Year And Section"), use_container_width=True)
+    if not answers.empty:
+        st.plotly_chart(px.histogram(answers, x="year", color="correct_option", title="Answer-Key Entries By Year And Option"), use_container_width=True)
+    st.dataframe(summary, use_container_width=True)
+    with st.expander("Imported file manifest", expanded=False):
+        st.dataframe(manifest, use_container_width=True, column_config={"source_url": st.column_config.LinkColumn("source_url")})
 
 
 def ask_ai_page() -> None:
@@ -182,14 +214,21 @@ def answer_ai(question: str) -> str:
     quality = load_csv("data_quality_summary.csv")
     strategy = load_csv("question_format_strategy.csv")
     sources = load_csv("source_discovery.csv")
+    internet = load_csv("internet_evidence_summary.csv")
+    questions = load_csv("questions_advanced.csv")
+    answers = load_csv("answer_key_entries.csv")
     evidence = {
         "data_quality": quality.to_dict("records"),
+        "internet_evidence_summary": internet.to_dict("records"),
         "top_priority_rows": priority.head(15).to_dict("records"),
         "strategy_rows": strategy.head(10).to_dict("records"),
         "source_rows": sources.head(10).to_dict("records"),
+        "question_metadata_sample": questions.head(10).to_dict("records"),
+        "answer_key_sample": answers.head(10).to_dict("records"),
         "caveats": [
             "This is CUET Computer Science subject code 308, using Section A plus Section B1 only.",
-            "Current CS dashboard is syllabus-initialized; parsed PYQ frequency is not available until CS papers are imported.",
+            "Public papers and answer keys are imported, but most question bodies are not machine-readable yet.",
+            "Topic frequency is not valid until OCR/manual question text is available.",
             "Do not claim prediction certainty.",
         ],
     }
@@ -247,6 +286,7 @@ def main() -> None:
         "Study Priority": priority_page,
         "Question Strategy": strategy_page,
         "Source Discovery": source_page,
+        "Internet Evidence": internet_evidence_page,
         "Raw Question Explorer": raw_questions_page,
         "Study Plan": study_plan_page,
         "Ask AI": ask_ai_page,
