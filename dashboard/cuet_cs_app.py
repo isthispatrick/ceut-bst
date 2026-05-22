@@ -192,18 +192,35 @@ def mock_practice_page() -> None:
 
     paper_source = st.radio(
         "Paper",
-        ["generated_adaptive_2026", "build_new_mock"],
-        format_func=lambda value: "Use generated adaptive 2026 paper" if value == "generated_adaptive_2026" else "Build a new mock from bank",
+        ["fresh_adaptive", "generated_adaptive_2026", "build_new_mock"],
+        format_func=lambda value: {
+            "fresh_adaptive": "Fresh adaptive mock",
+            "generated_adaptive_2026": "Use exported PDF paper",
+            "build_new_mock": "Build a custom mock from bank",
+        }[value],
         horizontal=True,
     )
-    mode = "generated_adaptive_2026"
-    seed = 305
-    if paper_source == "generated_adaptive_2026":
+    if "cs_mock_seed" not in st.session_state:
+        st.session_state.cs_mock_seed = uuid.uuid4().int % 999_999
+    if st.button("Generate different paper", type="primary"):
+        st.session_state.cs_mock_seed = uuid.uuid4().int % 999_999
+        st.session_state.cs_exam_key = ""
+        st.rerun()
+
+    mode = "adaptive"
+    seed = int(st.session_state.cs_mock_seed)
+    if paper_source == "fresh_adaptive":
+        target_questions = estimate_mock_size(blueprint, "full_cuet_style")
+        candidate_bank = avoid_recent_questions(bank, attempts, target_questions)
+        mock_questions = build_mock(candidate_bank, blueprint, "adaptive", seed, profile)
+        st.caption("Generated a fresh adaptive full mock. It prioritizes high-value CS topics, avoids your recently attempted questions when possible, and changes when you click Generate different paper.")
+    elif paper_source == "generated_adaptive_2026":
+        mode = "generated_adaptive_2026"
         mock_questions = load_generated_paper()
         if mock_questions.empty:
             st.error("Generated paper CSV is missing. Recreate it from the reports/cuet_cs export.")
             return
-        st.caption("Loaded the exact generated paper that was exported as PDF, now as an interactive CUET-style exam.")
+        st.caption("Loaded the exported PDF paper as an interactive exam. Use Fresh adaptive mock for a different paper each practice.")
     else:
         chapters = sorted(bank["chapter"].dropna().astype(str).unique())
         default_chapters = sorted(profile["chapter"].head(4).tolist()) if not profile.empty else chapters
@@ -235,6 +252,22 @@ def load_generated_paper() -> pd.DataFrame:
     if "practice_id" not in paper.columns:
         paper["practice_id"] = [f"generated_{index + 1}" for index in range(len(paper))]
     return paper
+
+
+def estimate_mock_size(blueprint: pd.DataFrame, mode: str) -> int:
+    row = blueprint[blueprint["mock_type"].astype(str).eq(mode)]
+    if row.empty:
+        return 40
+    return int(row.iloc[0]["questions"])
+
+
+def avoid_recent_questions(bank: pd.DataFrame, attempts: pd.DataFrame, target_questions: int) -> pd.DataFrame:
+    if attempts.empty or "practice_id" not in attempts.columns:
+        return bank
+    recent = attempts.sort_values("attempted_at", ascending=False).head(target_questions * 3)
+    recent_ids = set(recent["practice_id"].astype(str))
+    fresh = bank[~bank["practice_id"].astype(str).isin(recent_ids)].copy()
+    return fresh if len(fresh) >= target_questions else bank
 
 
 def render_cuet_exam(mock_questions: pd.DataFrame, mode: str, bank: pd.DataFrame) -> None:
@@ -380,7 +413,7 @@ def show_mock_analysis(review: pd.DataFrame, bank: pd.DataFrame) -> None:
 
 def build_mock(bank: pd.DataFrame, blueprint: pd.DataFrame, mode: str, seed: int, profile: pd.DataFrame | None = None) -> pd.DataFrame:
     if mode == "adaptive":
-        mode = "focused"
+        mode = "full_cuet_style"
         bank = apply_adaptive_weights(bank, profile)
     row = blueprint[blueprint["mock_type"].astype(str).eq(mode)]
     if row.empty:
