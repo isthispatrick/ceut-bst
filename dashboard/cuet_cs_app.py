@@ -395,7 +395,13 @@ def show_mock_analysis(review: pd.DataFrame, bank: pd.DataFrame) -> None:
     correct = int(review["result"].eq("correct").sum())
     score = correct * 5 - (attempted - correct) * 1
     max_score = len(review) * 5
-    st.success(f"Score: {score} / {max_score} | Correct: {correct} | Attempted: {attempted} | Accuracy: {(correct / attempted * 100) if attempted else 0:.1f}%")
+    scorecard = scorecard_summary(score, max_score, correct, attempted, len(review))
+    s1, s2, s3, s4 = st.columns(4)
+    s1.metric("Marks", f"{score}/{max_score}", f"{scorecard['score_percent']:.1f}%")
+    s2.metric("Accuracy", f"{scorecard['accuracy']:.1f}%")
+    s3.metric("Attempted", f"{attempted}/{len(review)}")
+    s4.metric("Verdict", scorecard["label"])
+    st.info(scorecard["message"])
     st.plotly_chart(px.histogram(review, y="chapter", color="result", title="Mock Result By Chapter"), use_container_width=True)
     weak = review[review["result"].isin(["wrong", "skipped"])]
     if not weak.empty:
@@ -404,11 +410,43 @@ def show_mock_analysis(review: pd.DataFrame, bank: pd.DataFrame) -> None:
     st.subheader("Full Review")
     st.dataframe(review, use_container_width=True, height=520)
     st.caption("This attempt has been saved locally and will influence the next adaptive mock.")
-    if st.button("Analyze this result with AI"):
+    result_question = st.text_area(
+        "Ask AI about this result",
+        value="Analyze this mock result and tell me exactly what I should study before the next mock.",
+        key="mock_result_ai_question",
+    )
+    if st.button("Ask AI Coach About This Result"):
         attempts = load_attempts()
         profile = build_weak_profile(attempts).head(10)
         with st.spinner("Asking the model to analyze this result..."):
-            st.markdown(ai_attempt_analysis(profile, attempts, bank))
+            st.markdown(ai_attempt_analysis(profile, attempts, bank, user_question=result_question, latest_review=review, scorecard=scorecard))
+
+
+def scorecard_summary(score: int, max_score: int, correct: int, attempted: int, total: int) -> dict[str, float | str]:
+    accuracy = (correct / attempted * 100) if attempted else 0.0
+    score_percent = (score / max_score * 100) if max_score else 0.0
+    attempted_percent = (attempted / total * 100) if total else 0.0
+    if score_percent >= 80 and accuracy >= 85:
+        label = "Excellent"
+        message = "Excellent mock. Keep speed steady, revise only the wrong/skipped rows, then take a harder adaptive paper."
+    elif score_percent >= 65 and accuracy >= 75:
+        label = "Good"
+        message = "Good score. You are in a strong zone, but skipped or weak chapters can still cost marks. Fix the red rows before the next mock."
+    elif score_percent >= 45:
+        label = "Average"
+        message = "Average attempt. This is workable, but you need targeted revision before it becomes exam-safe."
+    else:
+        label = "Needs Work"
+        message = "Not good enough yet, but useful data. Do not panic: revise the weak-topic table, then retake a fresh adaptive mock."
+    if attempted_percent < 60:
+        message += " Your attempt rate is low, so focus on confidence and elimination practice too."
+    return {
+        "score_percent": score_percent,
+        "accuracy": accuracy,
+        "attempted_percent": attempted_percent,
+        "label": label,
+        "message": message,
+    }
 
 
 def build_mock(bank: pd.DataFrame, blueprint: pd.DataFrame, mode: str, seed: int, profile: pd.DataFrame | None = None) -> pd.DataFrame:
@@ -506,12 +544,24 @@ def personal_coach(attempts: pd.DataFrame, bank: pd.DataFrame) -> None:
     if profile.empty:
         return
     st.dataframe(profile, use_container_width=True, height=260)
-    if st.button("Analyze my saved results with AI"):
+    coach_question = st.text_input(
+        "Ask AI about your saved mock history",
+        value="What are my weakest topics and what should I study today?",
+        key="saved_result_ai_question",
+    )
+    if st.button("Ask AI Coach About Saved Results"):
         with st.spinner("Asking the model to analyze your weak spots..."):
-            st.markdown(ai_attempt_analysis(profile, attempts, bank))
+            st.markdown(ai_attempt_analysis(profile, attempts, bank, user_question=coach_question))
 
 
-def ai_attempt_analysis(profile: pd.DataFrame, attempts: pd.DataFrame, bank: pd.DataFrame) -> str:
+def ai_attempt_analysis(
+    profile: pd.DataFrame,
+    attempts: pd.DataFrame,
+    bank: pd.DataFrame,
+    user_question: str = "",
+    latest_review: pd.DataFrame | None = None,
+    scorecard: dict[str, float | str] | None = None,
+) -> str:
     evidence = {
         "weak_topics": profile.to_dict("records"),
         "attempt_summary": {
@@ -519,11 +569,13 @@ def ai_attempt_analysis(profile: pd.DataFrame, attempts: pd.DataFrame, bank: pd.
             "rows": int(len(attempts)),
             "overall_accuracy": float(pd.to_numeric(attempts["is_correct"], errors="coerce").fillna(0).sum() / max(pd.to_numeric(attempts["attempted"], errors="coerce").fillna(0).sum(), 1)),
         },
+        "latest_mock_scorecard": scorecard or {},
+        "latest_mock_review_rows": latest_review.head(40).to_dict("records") if latest_review is not None and not latest_review.empty else [],
         "available_high_priority_questions": bank.sort_values("raw_score", ascending=False).head(12)[["chapter", "subtopic", "raw_score", "question_type"]].to_dict("records"),
         "caveat": "CUET CS 2026 exact paper cannot be predicted. Use this for adaptive practice based on saved mock mistakes plus CS syllabus priority.",
     }
     try:
-        from cuet_bst.llm_client import chat_completion
+        from cuet_bst.llm_client import chat_completion, configured_model
 
         return chat_completion(
             [
@@ -535,7 +587,7 @@ def ai_attempt_analysis(profile: pd.DataFrame, attempts: pd.DataFrame, bank: pd.
                         "and what the next adaptive mock should emphasize."
                     ),
                 },
-                {"role": "user", "content": f"EVIDENCE:\n{evidence}\n\nAnalyze my results and tell me what to study next."},
+                {"role": "user", "content": f"EVIDENCE:\n{evidence}\n\nQUESTION:\n{user_question or 'Analyze my results and tell me what to study next.'}\nConfigured model: {configured_model()}"},
             ],
             max_tokens=900,
             timeout=60,
@@ -574,7 +626,20 @@ def internet_evidence_page() -> None:
 def ask_ai_page() -> None:
     st.subheader("Ask AI")
     st.caption("The assistant uses only CUET Computer Science processed CSV summaries. It will say when PYQ data is missing.")
-    question = st.chat_input("Ask about CUET CS study priority, syllabus, SQL, Python, networks, or data import")
+    try:
+        from cuet_bst.llm_client import configured_model
+
+        st.caption(f"Model route: `{configured_model()}`")
+    except Exception:
+        pass
+    typed_question = st.text_input(
+        "Ask a question",
+        placeholder="Example: Based on my mocks, what should I study today?",
+        key="cs_ai_regular_input",
+    )
+    ask_clicked = st.button("Ask AI", type="primary")
+    chat_question = st.chat_input("Ask about CUET CS study priority, syllabus, SQL, Python, networks, or data import")
+    question = typed_question if ask_clicked and typed_question.strip() else chat_question
     if "cs_ai_messages" not in st.session_state:
         st.session_state.cs_ai_messages = [
             {"role": "assistant", "content": "Ask me what to study first for CUET Computer Science."}
@@ -601,6 +666,8 @@ def answer_ai(question: str) -> str:
     internet = load_csv("internet_evidence_summary.csv")
     questions = load_csv("questions_advanced.csv")
     answers = load_csv("answer_key_entries.csv")
+    attempts = load_attempts()
+    weak_profile = build_weak_profile(attempts).head(12)
     evidence = {
         "data_quality": quality.to_dict("records"),
         "internet_evidence_summary": internet.to_dict("records"),
@@ -609,6 +676,8 @@ def answer_ai(question: str) -> str:
         "source_rows": sources.head(10).to_dict("records"),
         "question_metadata_sample": questions.head(10).to_dict("records"),
         "answer_key_sample": answers.head(10).to_dict("records"),
+        "saved_mock_attempt_count": int(attempts["session_id"].nunique()) if not attempts.empty and "session_id" in attempts.columns else 0,
+        "saved_mock_weak_topics": weak_profile.to_dict("records"),
         "caveats": [
             "This is CUET Computer Science subject code 308, using Section A plus Section B1 only.",
             "Public papers and answer keys are imported, but most question bodies are not machine-readable yet.",

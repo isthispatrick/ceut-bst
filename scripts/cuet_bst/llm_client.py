@@ -14,11 +14,29 @@ load_env_file()
 
 
 def configured_model() -> str:
-    base_url = configured_base_url()
     model = os.getenv("CUET_LLM_MODEL", "").strip()
     if model:
         return model
-    return "ibm-granite/granite-4.1-8b" if "hackclub.com" in base_url else "gpt-4o-mini"
+    return configured_models()[0]
+
+
+def configured_models() -> list[str]:
+    base_url = configured_base_url()
+    configured = [
+        os.getenv("CUET_LLM_MODEL", "").strip(),
+        *[item.strip() for item in os.getenv("CUET_LLM_FALLBACK_MODELS", "").split(",")],
+    ]
+    models = [item for item in configured if item]
+    if models:
+        return list(dict.fromkeys(models))
+    if "hackclub.com" in base_url:
+        return [
+            "~openai/gpt-mini-latest",
+            "~anthropic/claude-haiku-latest",
+            "~google/gemini-flash-latest",
+            "ibm-granite/granite-4.1-8b",
+        ]
+    return ["gpt-4o-mini"]
 
 
 def configured_base_url() -> str:
@@ -48,19 +66,27 @@ def chat_completion(
         raise RuntimeError("No LLM API key configured. Set HACKCLUB_AI_API_KEY, CUET_LLM_API_KEY, or OPENAI_API_KEY.")
     session = requests.Session()
     session.trust_env = False
-    response = session.post(
-        f"{configured_base_url()}/chat/completions",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        json={
-            "model": configured_model(),
-            "messages": messages,
-            "temperature": temperature,
-            "max_tokens": max_tokens or int(os.getenv("CUET_LLM_MAX_TOKENS", "700")),
-        },
-        timeout=timeout,
-    )
-    response.raise_for_status()
-    return str(response.json()["choices"][0]["message"]["content"])
+    last_error: Exception | None = None
+    for model in configured_models():
+        try:
+            response = session.post(
+                f"{configured_base_url()}/chat/completions",
+                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                json={
+                    "model": model,
+                    "messages": messages,
+                    "temperature": temperature,
+                    "max_tokens": max_tokens or int(os.getenv("CUET_LLM_MAX_TOKENS", "700")),
+                },
+                timeout=timeout,
+            )
+            response.raise_for_status()
+            return str(response.json()["choices"][0]["message"]["content"])
+        except requests.RequestException as exc:
+            last_error = exc
+            if getattr(exc, "response", None) is not None and exc.response is not None and exc.response.status_code in {401, 403}:
+                break
+    raise RuntimeError(f"LLM request failed for configured model fallbacks: {last_error}")
 
 
 def parse_json_object(content: str) -> dict[str, Any]:

@@ -213,7 +213,7 @@ async function callLlm(question, evidence) {
     return 'AI is not configured on this deployment. Add HACKCLUB_AI_API_KEY in Vercel Project Settings -> Environment Variables.';
   }
   const baseUrl = (process.env.CUET_LLM_BASE_URL || (process.env.HACKCLUB_AI_API_KEY ? 'https://ai.hackclub.com/proxy/v1' : 'https://api.openai.com/v1')).replace(/\/$/, '');
-  const model = process.env.CUET_LLM_MODEL || (baseUrl.includes('hackclub.com') ? 'ibm-granite/granite-4.1-8b' : 'gpt-4o-mini');
+  const model = process.env.CUET_LLM_MODEL || (baseUrl.includes('hackclub.com') ? '~openai/gpt-mini-latest' : 'gpt-4o-mini');
   const response = await fetch(`${baseUrl}/chat/completions`, {
     method: 'POST',
     headers: {

@@ -53,7 +53,7 @@ Copy-Item .env.example .env
 
 OCR is optional. If PDFs are scanned images, install Tesseract locally and set `CUET_ENABLE_OCR=true` in `.env`.
 
-LLM classification is optional. If `HACKCLUB_AI_API_KEY`, `CUET_LLM_API_KEY`, or `OPENAI_API_KEY` is present, `scripts/classify_ensemble.py` uses the configured OpenAI-compatible `CUET_LLM_BASE_URL` and `CUET_LLM_MODEL`; otherwise it degrades to local rule + TF-IDF/BM25 + embedding-style similarity. The default Hack Club model is `ibm-granite/granite-4.1-8b`, chosen for cheap classification. `CUET_LLM_MAX_CALLS` and `CUET_LLM_MAX_TOKENS` cap spend per run.
+LLM classification is optional. If `HACKCLUB_AI_API_KEY`, `CUET_LLM_API_KEY`, or `OPENAI_API_KEY` is present, `scripts/classify_ensemble.py` uses the configured OpenAI-compatible `CUET_LLM_BASE_URL` and `CUET_LLM_MODEL`; otherwise it degrades to local rule + TF-IDF/BM25 + embedding-style similarity. The default Hack Club route is `~openai/gpt-mini-latest`, with Claude/Gemini/Granite fallbacks configured through `CUET_LLM_FALLBACK_MODELS`. `CUET_LLM_MAX_CALLS` and `CUET_LLM_MAX_TOKENS` cap spend per run.
 
 The classifier also writes `data/processed/ai_manual_review_suggestions.csv` for low-confidence rows, so the Streamlit Manual Review Queue can show AI-proposed corrections before you save final labels to `data/manual_labels.csv`.
 
@@ -113,7 +113,7 @@ Mock practice outputs:
 - `data/cuet_cs/processed/practice_question_bank.csv`
 - `data/cuet_cs/processed/mock_blueprint.csv`
 
-The Streamlit mock page now defaults to a fresh adaptive full mock from the expanded CS question bank. It uses one-question navigation, a question palette, CUET-style scoring, and post-test weak-topic analysis. It avoids recently attempted questions when enough fresh questions are available. The exported PDF paper remains available as a separate practice option. Your personal attempts are saved locally to `data/cuet_cs/processed/mock_attempts.csv`, which is ignored by git so your weak-topic history stays on your machine.
+The Streamlit mock page now defaults to a fresh adaptive full mock from the expanded CS question bank. It uses one-question navigation, a question palette, CUET-style scoring, score verdicts, and post-test weak-topic analysis. It avoids recently attempted questions when enough fresh questions are available. The exported PDF paper remains available as a separate practice option. Your personal attempts are saved locally to `data/cuet_cs/processed/mock_attempts.csv`, which is ignored by git so your weak-topic history stays on your machine.
 
 The dashboard reads:
 
