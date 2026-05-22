@@ -113,6 +113,8 @@ Mock practice outputs:
 - `data/cuet_cs/processed/practice_question_bank.csv`
 - `data/cuet_cs/processed/mock_blueprint.csv`
 
+The Streamlit mock page saves your personal attempts locally to `data/cuet_cs/processed/mock_attempts.csv`. That file is ignored by git so your weak-topic history stays on your machine.
+
 The dashboard reads:
 
 - `data/processed/questions_advanced.csv`

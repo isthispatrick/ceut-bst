@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import sys
+import uuid
 from pathlib import Path
 
 import pandas as pd
@@ -13,6 +15,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 DATA_DIR = ROOT / "data" / "cuet_cs"
 PROCESSED = DATA_DIR / "processed"
 REPORTS = ROOT / "reports" / "cuet_cs"
+ATTEMPTS_PATH = PROCESSED / "mock_attempts.csv"
 
 
 st.set_page_config(page_title="CUET Computer Science Dashboard", layout="wide")
@@ -176,17 +179,35 @@ def mock_practice_page() -> None:
     c2.metric("Tier 1/Core", int(bank["priority_tier"].astype(str).str.contains("Tier 1", case=False, na=False).sum()))
     c3.metric("Chapters", bank["chapter"].nunique())
     c4.metric("Question types", bank["question_type"].nunique())
+    attempts = load_attempts()
+    profile = build_weak_profile(attempts)
+    if not attempts.empty:
+        last_session = attempts.sort_values("attempted_at").iloc[-1]["session_id"]
+        last = attempts[attempts["session_id"].eq(last_session)]
+        attempted = int(last["attempted"].sum())
+        correct = int(last["is_correct"].sum())
+        score = int(last["score_delta"].sum())
+        st.info(f"Remembered {attempts['session_id'].nunique()} mock attempts. Last score: {score}/{len(last) * 5}, accuracy: {(correct / attempted * 100) if attempted else 0:.1f}%.")
 
     chapters = sorted(bank["chapter"].dropna().astype(str).unique())
-    selected_chapters = st.multiselect("Focus chapters", chapters, default=chapters)
-    mode = st.radio("Mock type", ["quick", "focused", "full_cuet_style"], horizontal=True)
+    default_chapters = sorted(profile["chapter"].head(4).tolist()) if not profile.empty else chapters
+    selected_chapters = st.multiselect("Focus chapters", chapters, default=default_chapters or chapters)
+    mode = st.radio("Mock type", ["adaptive", "quick", "focused", "full_cuet_style"], horizontal=True)
     seed = st.number_input("Shuffle seed", min_value=1, max_value=9999, value=305)
     filtered_bank = bank[bank["chapter"].astype(str).isin(selected_chapters)].copy()
     if filtered_bank.empty:
         st.info("Select at least one chapter.")
         return
-    mock_questions = build_mock(filtered_bank, blueprint, mode, int(seed))
+    mock_questions = build_mock(filtered_bank, blueprint, mode, int(seed), profile)
     st.caption(f"Loaded {len(mock_questions)} questions. Full CUET-style mode targets 15 Section A + 25 Section B1 when enough questions are available.")
+    if mode == "adaptive":
+        st.caption("Adaptive mode weights high-value CS topics plus your wrong/skipped topics from saved attempts.")
+    st.download_button(
+        "Download this paper as CSV",
+        mock_questions.to_csv(index=False),
+        file_name=f"cuet_cs_{mode}_mock.csv",
+        mime="text/csv",
+    )
 
     with st.form("cuet_cs_mock_form"):
         answers = {}
@@ -210,6 +231,9 @@ def mock_practice_page() -> None:
 
     if submitted:
         review_rows = []
+        attempt_rows = []
+        session_id = str(uuid.uuid4())
+        attempted_at = datetime.now(timezone.utc).isoformat()
         correct = 0
         attempted = 0
         for _, row in mock_questions.iterrows():
@@ -229,8 +253,30 @@ def mock_practice_page() -> None:
                     "priority_tier": row["priority_tier"],
                 }
             )
+            attempt_rows.append(
+                {
+                    "session_id": session_id,
+                    "attempted_at": attempted_at,
+                    "mock_type": mode,
+                    "practice_id": row["practice_id"],
+                    "section": row["section"],
+                    "chapter": row["chapter"],
+                    "subtopic": row["subtopic"],
+                    "question_type": row["question_type"],
+                    "difficulty": row["difficulty"],
+                    "priority_tier": row["priority_tier"],
+                    "raw_score": row["raw_score"],
+                    "chosen": chosen,
+                    "correct_option": row["correct_option"],
+                    "attempted": int(is_attempted),
+                    "is_correct": int(is_correct),
+                    "score_delta": 5 if is_correct else (-1 if is_attempted else 0),
+                    "result": "correct" if is_correct else ("skipped" if not is_attempted else "wrong"),
+                }
+            )
         score = correct * 5 - (attempted - correct) * 1
         max_score = len(mock_questions) * 5
+        save_attempts(pd.DataFrame(attempt_rows))
         st.success(f"Score: {score} / {max_score} | Correct: {correct} | Attempted: {attempted} | Accuracy: {(correct / attempted * 100) if attempted else 0:.1f}%")
         review = pd.DataFrame(review_rows)
         st.plotly_chart(px.histogram(review, y="chapter", color="result", title="Mock Result By Chapter"), use_container_width=True)
@@ -240,9 +286,14 @@ def mock_practice_page() -> None:
             st.dataframe(weak[["chapter", "subtopic", "result", "explanation", "priority_tier"]], use_container_width=True, height=360)
         st.subheader("Full Review")
         st.dataframe(review, use_container_width=True, height=520)
+        st.caption("This attempt has been saved locally and will influence the next adaptive mock.")
+    personal_coach(load_attempts(), bank)
 
 
-def build_mock(bank: pd.DataFrame, blueprint: pd.DataFrame, mode: str, seed: int) -> pd.DataFrame:
+def build_mock(bank: pd.DataFrame, blueprint: pd.DataFrame, mode: str, seed: int, profile: pd.DataFrame | None = None) -> pd.DataFrame:
+    if mode == "adaptive":
+        mode = "focused"
+        bank = apply_adaptive_weights(bank, profile)
     row = blueprint[blueprint["mock_type"].astype(str).eq(mode)]
     if row.empty:
         total, section_a_count, section_b_count = 10, 4, 6
@@ -269,7 +320,8 @@ def build_mock(bank: pd.DataFrame, blueprint: pd.DataFrame, mode: str, seed: int
 def weighted_sample(data: pd.DataFrame, count: int, rng) -> pd.DataFrame:
     if data.empty or count <= 0:
         return data.head(0)
-    weights = pd.to_numeric(data.get("raw_score", 1), errors="coerce").fillna(1).clip(lower=0.1)
+    weight_col = "adaptive_weight" if "adaptive_weight" in data.columns else "raw_score"
+    weights = pd.to_numeric(data.get(weight_col, 1), errors="coerce").fillna(1).clip(lower=0.1)
     return data.sample(n=min(count, len(data)), replace=False, weights=weights, random_state=rng.randint(1, 1_000_000))
 
 
@@ -277,6 +329,98 @@ def random_state(seed: int):
     import random
 
     return random.Random(seed)
+
+
+def load_attempts() -> pd.DataFrame:
+    if not ATTEMPTS_PATH.exists():
+        return pd.DataFrame()
+    return pd.read_csv(ATTEMPTS_PATH).fillna("")
+
+
+def save_attempts(new_rows: pd.DataFrame) -> None:
+    if new_rows.empty:
+        return
+    old = load_attempts()
+    combined = pd.concat([old, new_rows], ignore_index=True) if not old.empty else new_rows
+    combined.to_csv(ATTEMPTS_PATH, index=False)
+
+
+def build_weak_profile(attempts: pd.DataFrame) -> pd.DataFrame:
+    if attempts.empty:
+        return pd.DataFrame(columns=["chapter", "subtopic", "wrong", "skipped", "attempted", "accuracy", "weakness_score"])
+    data = attempts.copy()
+    for column in ["attempted", "is_correct"]:
+        data[column] = pd.to_numeric(data[column], errors="coerce").fillna(0)
+    data["wrong"] = ((data["attempted"].eq(1)) & (data["is_correct"].eq(0))).astype(int)
+    data["skipped"] = data["attempted"].eq(0).astype(int)
+    grouped = data.groupby(["chapter", "subtopic"], dropna=False).agg(
+        wrong=("wrong", "sum"),
+        skipped=("skipped", "sum"),
+        attempted=("attempted", "sum"),
+        correct=("is_correct", "sum"),
+    ).reset_index()
+    grouped["accuracy"] = grouped.apply(lambda row: row["correct"] / row["attempted"] if row["attempted"] else 0, axis=1)
+    grouped["weakness_score"] = grouped["wrong"] * 2.0 + grouped["skipped"] * 0.8 + (1 - grouped["accuracy"])
+    return grouped.sort_values("weakness_score", ascending=False)
+
+
+def apply_adaptive_weights(bank: pd.DataFrame, profile: pd.DataFrame | None) -> pd.DataFrame:
+    result = bank.copy()
+    result["adaptive_weight"] = pd.to_numeric(result.get("raw_score", 1), errors="coerce").fillna(1)
+    if profile is None or profile.empty:
+        return result
+    weak = profile[["chapter", "subtopic", "weakness_score"]]
+    result = result.merge(weak, on=["chapter", "subtopic"], how="left")
+    result["weakness_score"] = pd.to_numeric(result["weakness_score"], errors="coerce").fillna(0)
+    result["adaptive_weight"] = result["adaptive_weight"] + result["weakness_score"] * 2.5
+    return result
+
+
+def personal_coach(attempts: pd.DataFrame, bank: pd.DataFrame) -> None:
+    st.subheader("Personal Coach")
+    if attempts.empty:
+        st.write("Take one mock first. I will remember your mistakes and generate the next paper around your weak topics.")
+        return
+    profile = build_weak_profile(load_attempts()).head(10)
+    if profile.empty:
+        return
+    st.dataframe(profile, use_container_width=True, height=260)
+    if st.button("Analyze my saved results with AI"):
+        with st.spinner("Asking the model to analyze your weak spots..."):
+            st.markdown(ai_attempt_analysis(profile, attempts, bank))
+
+
+def ai_attempt_analysis(profile: pd.DataFrame, attempts: pd.DataFrame, bank: pd.DataFrame) -> str:
+    evidence = {
+        "weak_topics": profile.to_dict("records"),
+        "attempt_summary": {
+            "attempts": int(attempts["session_id"].nunique()),
+            "rows": int(len(attempts)),
+            "overall_accuracy": float(pd.to_numeric(attempts["is_correct"], errors="coerce").fillna(0).sum() / max(pd.to_numeric(attempts["attempted"], errors="coerce").fillna(0).sum(), 1)),
+        },
+        "available_high_priority_questions": bank.sort_values("raw_score", ascending=False).head(12)[["chapter", "subtopic", "raw_score", "question_type"]].to_dict("records"),
+        "caveat": "CUET CS 2026 exact paper cannot be predicted. Use this for adaptive practice based on saved mock mistakes plus CS syllabus priority.",
+    }
+    try:
+        from cuet_bst.llm_client import chat_completion
+
+        return chat_completion(
+            [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a CUET Computer Science coach. Use only the evidence. "
+                        "Do not claim certainty about future questions. Give a precise study plan, weak-topic diagnosis, "
+                        "and what the next adaptive mock should emphasize."
+                    ),
+                },
+                {"role": "user", "content": f"EVIDENCE:\n{evidence}\n\nAnalyze my results and tell me what to study next."},
+            ],
+            max_tokens=900,
+            timeout=60,
+        )
+    except Exception as exc:
+        return f"AI analysis failed: {exc}\n\nFocus first on the weak topics in the table above, then retake adaptive mode."
 
 
 def internet_evidence_page() -> None:

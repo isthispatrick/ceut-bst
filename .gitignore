@@ -29,6 +29,7 @@ data/raw/manifest.jsonl
 data/cuet_cs/raw/*.pdf
 data/cuet_cs/raw/**/*.pdf
 data/cuet_cs/processed/extracted_text/
+data/cuet_cs/processed/mock_attempts.csv
 data/verified/golden_labels_ai.csv
 __pycache__/
 .venv/
