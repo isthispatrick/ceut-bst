@@ -70,17 +70,17 @@ python scripts/analyze_advanced.py
 streamlit run dashboard/app.py
 ```
 
-## CUET Computer Science / Informatics Practices Dashboard
+## CUET Computer Science Dashboard
 
-This repo also includes a parallel Streamlit dashboard for CUET UG Computer Science / Information Practices, subject code `308`.
-It starts from the official NTA syllabus taxonomy and keeps PYQ-frequency fields conservative until CS/IP papers are imported and parsed.
+This repo also includes a parallel Streamlit dashboard for CUET UG Computer Science, subject code `308`.
+It is scoped to Computer Science only: Section A plus Section B1 from the official subject 308 syllabus. It keeps PYQ-frequency fields conservative until CS papers are imported and parsed.
 
 ```powershell
 python scripts/init_cuet_cs.py
 streamlit run dashboard/cuet_cs_app.py --server.port 8503
 ```
 
-The CS/IP dashboard reads and writes under:
+The CS dashboard reads and writes under:
 
 ```text
 data/cuet_cs/raw/
@@ -93,9 +93,10 @@ reports/cuet_cs/
 Official source used for the initial taxonomy:
 
 - NTA syllabus page: https://cuet.nta.nic.in/syllabus/
-- Computer Science / Information Practices - 308 PDF: https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf
+- Official subject 308 PDF: https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf
+  - Dashboard uses Section A and Section B1 only.
 
-The CS/IP dashboard currently provides syllabus-overlap study priority, source discovery, manual-import folders, question-format strategy, and an Ask AI page. It does not invent historical frequency until actual PYQs are parsed into `data/cuet_cs/processed/questions_advanced.csv`.
+The CS dashboard currently provides syllabus-overlap study priority, source discovery, manual-import folders, question-format strategy, and an Ask AI page. It does not invent historical frequency until actual CS PYQs are parsed into `data/cuet_cs/processed/questions_advanced.csv`.
 
 The dashboard reads:
 

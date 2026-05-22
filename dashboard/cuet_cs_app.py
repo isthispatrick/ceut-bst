@@ -15,7 +15,7 @@ PROCESSED = DATA_DIR / "processed"
 REPORTS = ROOT / "reports" / "cuet_cs"
 
 
-st.set_page_config(page_title="CUET CS/IP Dashboard", layout="wide")
+st.set_page_config(page_title="CUET Computer Science Dashboard", layout="wide")
 st.markdown(
     """
     <style>
@@ -70,7 +70,7 @@ def show_data_status() -> None:
     quality = load_csv("data_quality_summary.csv")
     status = metric_value(quality, "data_status", "No data status found. Run python scripts/init_cuet_cs.py.")
     st.markdown(
-        f"<div class='cs-warning'><b>Data status:</b> {status} This dashboard is ready for CUET CS/IP, but frequency and prediction-style scores stay conservative until PYQs are imported and parsed.</div>",
+        f"<div class='cs-warning'><b>Data status:</b> {status} This dashboard is CS-only: Section A + Section B1. Frequency and prediction-style scores stay conservative until CS PYQs are imported and parsed.</div>",
         unsafe_allow_html=True,
     )
 
@@ -150,18 +150,18 @@ def raw_questions_page() -> None:
     questions = load_csv("questions_advanced.csv")
     st.subheader("Raw Question Explorer")
     if questions.empty:
-        st.info("No parsed CUET CS/IP questions yet. Add public PDFs/CSVs to `data/cuet_cs/manual_imports/` and wire the parser when ready.")
+        st.info("No parsed CUET Computer Science questions yet. Add public PDFs/CSVs to `data/cuet_cs/manual_imports/` and wire the parser when ready.")
         return
     st.dataframe(filtered(questions), use_container_width=True, height=650)
 
 
 def ask_ai_page() -> None:
     st.subheader("Ask AI")
-    st.caption("The assistant uses only CUET CS/IP processed CSV summaries. It will say when PYQ data is missing.")
-    question = st.chat_input("Ask about CUET CS/IP study priority, syllabus, SQL, Python, networks, or data import")
+    st.caption("The assistant uses only CUET Computer Science processed CSV summaries. It will say when PYQ data is missing.")
+    question = st.chat_input("Ask about CUET CS study priority, syllabus, SQL, Python, networks, or data import")
     if "cs_ai_messages" not in st.session_state:
         st.session_state.cs_ai_messages = [
-            {"role": "assistant", "content": "Ask me what to study first for CUET Computer Science / Informatics Practices."}
+            {"role": "assistant", "content": "Ask me what to study first for CUET Computer Science."}
         ]
     for message in st.session_state.cs_ai_messages:
         with st.chat_message(message["role"]):
@@ -188,7 +188,7 @@ def answer_ai(question: str) -> str:
         "strategy_rows": strategy.head(10).to_dict("records"),
         "source_rows": sources.head(10).to_dict("records"),
         "caveats": [
-            "This is CUET Computer Science / Information Practices subject code 308.",
+            "This is CUET Computer Science subject code 308, using Section A plus Section B1 only.",
             "Current CS dashboard is syllabus-initialized; parsed PYQ frequency is not available until CS papers are imported.",
             "Do not claim prediction certainty.",
         ],
@@ -201,7 +201,7 @@ def answer_ai(question: str) -> str:
                 {
                     "role": "system",
                     "content": (
-                        "You are a CUET Computer Science / Informatics Practices study analyst. "
+                        "You are a CUET Computer Science study analyst. "
                         "Use only the evidence. If parsed PYQ data is missing, say that clearly. "
                         "Give concrete study actions but do not invent historical frequency."
                     ),
@@ -214,7 +214,7 @@ def answer_ai(question: str) -> str:
     except Exception as exc:
         return (
             f"AI assistant failed: {exc}\n\n"
-            "Fallback: Start with SQL, database concepts, Python data structures/dry runs, networks/security, Pandas, and Matplotlib. "
+            "Fallback: Start with SQL, database concepts, Python exception/file handling, stack, queue, searching, sorting, data handling basics, and networks/security. "
             "This recommendation is syllabus-overlap based, not PYQ-frequency based yet."
         )
 
@@ -239,8 +239,8 @@ def study_plan_page() -> None:
 
 
 def main() -> None:
-    st.title("CUET UG Computer Science / Informatics Practices Dashboard")
-    st.caption("Subject code 308. Built as a parallel Streamlit dashboard to the CUET BST system.")
+    st.title("CUET UG Computer Science Dashboard")
+    st.caption("Subject code 308. CS-only scope: Section A + Section B1 from the official syllabus.")
     pages = {
         "Overview": overview,
         "Syllabus Taxonomy": syllabus_page,

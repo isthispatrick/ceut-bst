@@ -17,6 +17,21 @@ MANUAL_OFFICIAL_DIR = DATA_DIR / "manual_official_papers"
 VERIFIED_DIR = DATA_DIR / "verified"
 REPORTS_DIR = ROOT / "reports" / "cuet_cs"
 
+CHAPTER_WEIGHTS = {
+    "Database Concepts": 4.4,
+    "Structured Query Language I": 4.7,
+    "Structured Query Language II": 4.8,
+    "Structured Query Language": 5.0,
+    "Computer Networks": 4.1,
+    "Exception and File Handling in Python": 3.8,
+    "Stack": 3.7,
+    "Queue": 3.4,
+    "Searching": 3.4,
+    "Sorting": 3.6,
+    "Understanding Data": 2.8,
+    "Data Communication and Security": 4.0,
+}
+
 
 def main() -> None:
     for path in [RAW_DIR, PROCESSED_DIR, MANUAL_IMPORT_DIR, MANUAL_OFFICIAL_DIR, VERIFIED_DIR, REPORTS_DIR]:
@@ -40,12 +55,12 @@ def main() -> None:
     write_csv("accuracy_summary.csv", pd.DataFrame([{"metric": "status", "value": "No parsed CUET CS PYQ labels yet."}]))
 
     (MANUAL_IMPORT_DIR / "README.md").write_text(
-        "Put CUET Computer Science / Informatics Practices PDFs, HTML files, or CSV exports here.\n"
+        "Put CUET Computer Science PDFs, HTML files, or CSV exports here.\n"
         "Then extend the parser or adapt the BST pipeline to create data/cuet_cs/processed/questions_advanced.csv.\n",
         encoding="utf-8",
     )
     (MANUAL_OFFICIAL_DIR / "README.md").write_text(
-        "Place manually downloaded official NTA CUET Computer Science / Informatics Practices PDFs here.\n"
+        "Place manually downloaded official NTA CUET Computer Science PDFs here.\n"
         "Do not bypass NTA blocking, login, paywalls, CAPTCHA, or anti-bot restrictions.\n",
         encoding="utf-8",
     )
@@ -96,19 +111,21 @@ def build_priority(taxonomy: pd.DataFrame) -> pd.DataFrame:
         concept_type=("concept_type", "first"),
     )
     for (chapter, subtopic), row in grouped.reset_index().set_index(["chapter", "subtopic"]).iterrows():
-        overlap = float(row["syllabus_overlap_score"]) + float(row["chapter_overlap_score"]) * 0.25
-        if overlap >= 2.5:
-            tier = "Syllabus Tier 1 = high overlap"
-        elif overlap >= 1.5:
-            tier = "Syllabus Tier 2 = medium overlap"
+        score = syllabus_score(str(chapter), str(subtopic), str(row["section_list"]))
+        if score >= 4.5:
+            tier = "Tier 1 = CS core"
+        elif score >= 3.6:
+            tier = "Tier 2 = high ROI"
+        elif score >= 3.0:
+            tier = "Tier 3 = practice after core"
         else:
-            tier = "Needs PYQ data"
+            tier = "Tier 4 = revise selectively"
         rows.append(
             {
                 "chapter": chapter,
                 "subtopic": subtopic,
                 "priority_tier": tier,
-                "raw_score": round(overlap, 2),
+                "raw_score": round(score, 2),
                 "source_weighted_frequency": 0,
                 "recency_score": 0,
                 "question_count": 0,
@@ -118,7 +135,8 @@ def build_priority(taxonomy: pd.DataFrame) -> pd.DataFrame:
                 "difficulty": suggested_difficulty(str(chapter), str(subtopic)),
                 "study_hours_required": suggested_hours(str(chapter), str(subtopic)),
                 "recommended_action": recommended_action(str(chapter), str(subtopic), tier),
-                "data_status": "syllabus_only_no_pyq_frequency_yet",
+                "data_status": "cs_syllabus_heuristic_no_pyq_frequency_yet",
+                "score_basis": "Official syllabus Section A + Section B1, weighted by CS exam centrality; not historical frequency.",
                 "section_list": row["section_list"],
                 "unit_list": row["unit_list"],
                 "concept_type": row["concept_type"],
@@ -162,7 +180,7 @@ def build_strategy(taxonomy: pd.DataFrame) -> pd.DataFrame:
 def build_quality_summary(taxonomy: pd.DataFrame, sources: pd.DataFrame) -> pd.DataFrame:
     rows = [
         ("subject_code", "308"),
-        ("subject_name", "Computer Science / Information Practices"),
+        ("subject_name", "Computer Science"),
         ("total_parsed_rows", 0),
         ("unique_questions_after_dedupe", 0),
         ("duplicate_rate_percent", 0),
@@ -171,7 +189,7 @@ def build_quality_summary(taxonomy: pd.DataFrame, sources: pd.DataFrame) -> pd.D
         ("syllabus_topics", len(taxonomy)),
         ("chapters", taxonomy["chapter"].nunique()),
         ("configured_sources", len(sources)),
-        ("data_status", "Initialized from official syllabus taxonomy; PYQ collection not run yet."),
+        ("data_status", "CS-only initialization from official Section A + Section B1 syllabus. PYQ collection not run yet."),
     ]
     return pd.DataFrame(rows, columns=["metric", "value"])
 
@@ -219,9 +237,25 @@ def infer_concept_type(chapter: str, subtopic: str) -> str:
         return "algorithm-dry-run"
     if any(term in text for term in ["network", "protocol", "security", "cyber", "firewall"]):
         return "concept-application"
-    if any(term in text for term in ["pandas", "matplotlib", "dataframe", "series", "plot"]):
-        return "library-output"
     return "definition-feature"
+
+
+def syllabus_score(chapter: str, subtopic: str, sections: str) -> float:
+    text = f"{chapter} {subtopic}".lower()
+    score = CHAPTER_WEIGHTS.get(chapter, 2.5)
+    if "section a" in sections.lower() and "section b1" in sections.lower():
+        score += 0.4
+    if any(term in text for term in ["join", "group by", "having", "aggregate", "count", "date functions", "text functions"]):
+        score += 0.35
+    if any(term in text for term in ["select", "create", "insert", "update", "delete", "ddl", "dml", "dql"]):
+        score += 0.25
+    if any(term in text for term in ["postfix", "infix", "expression", "binary search", "collision", "dry run"]):
+        score += 0.35
+    if any(term in text for term in ["firewall", "https", "dos", "snooping", "eavesdropping", "protocol", "bandwidth"]):
+        score += 0.25
+    if any(term in text for term in ["candidate", "primary", "foreign key", "relational algebra"]):
+        score += 0.25
+    return min(score, 5.0)
 
 
 def suggested_pattern(chapter: str, subtopic: str) -> str:
@@ -251,8 +285,6 @@ def recommended_action(chapter: str, subtopic: str, tier: str) -> str:
         return "Practice query outputs, clauses, joins, functions, and error traps."
     if any(term in chapter.lower() for term in ["stack", "queue", "search", "sort"]):
         return "Do dry runs by hand and memorize operation order and edge cases."
-    if "pandas" in chapter.lower() or "matplotlib" in chapter.lower():
-        return "Practice small code snippets and identify expected DataFrame or plot output."
     if "network" in chapter.lower() or "security" in chapter.lower():
         return "Revise definitions, devices, protocols, threats, and one-line differences."
     return "Revise from syllabus and add PYQs before trusting frequency."
@@ -263,8 +295,6 @@ def how_to_study(chapter: str, subtopic: str) -> str:
         return "Write the clause order, then solve 15-20 SELECT/function/grouping questions."
     if any(term in chapter.lower() for term in ["stack", "queue", "search", "sort"]):
         return "Trace operations in a table: input, pointer/index, stack/queue state, output."
-    if "pandas" in chapter.lower() or "matplotlib" in chapter.lower():
-        return "Run or mentally trace short snippets; focus on Series/DataFrame shape and labels."
     if "network" in chapter.lower() or "security" in chapter.lower():
         return "Make a compare table for devices, topologies, protocols, threats, and prevention."
     return "Make concise notes, then attach PYQ examples after import."
@@ -280,8 +310,6 @@ def common_traps(chapter: str, subtopic: str) -> str:
         return "Reversing LIFO/FIFO or losing one operation in a dry run."
     if "sort" in text or "search" in text:
         return "Wrong best/worst case and off-by-one index changes."
-    if "pandas" in text:
-        return "Confusing label indexing with positional indexing and Series vs DataFrame output."
     if "network" in text:
         return "Mixing devices, topologies, and internet/web terminology."
     return "Overtrusting syllabus-only priority before PYQ import."

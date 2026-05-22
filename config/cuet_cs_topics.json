@@ -1,6 +1,6 @@
 {
   "subject_code": "308",
-  "subject_name": "Computer Science / Information Practices",
+  "subject_name": "Computer Science",
   "official_syllabus_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf",
   "official_syllabus_page": "https://cuet.nta.nic.in/syllabus/",
   "sections": [
@@ -132,83 +132,6 @@
             "viruses worms trojan spam cookies adware",
             "firewall http https",
             "DoS intrusion snooping eavesdropping"
-          ]
-        }
-      ]
-    },
-    {
-      "section": "Section B2",
-      "unit": "Informatics Practices",
-      "chapters": [
-        {
-          "chapter": "Database Query Using SQL",
-          "subtopics": [
-            "math text date aggregate functions",
-            "GROUP BY HAVING ORDER BY",
-            "joins and set operations"
-          ]
-        },
-        {
-          "chapter": "Data Handling Using Pandas I",
-          "subtopics": [
-            "Pandas NumPy Matplotlib",
-            "Series creation",
-            "Series operations",
-            "DataFrame creation",
-            "row and column operations",
-            "indexing slicing",
-            "CSV import export"
-          ]
-        },
-        {
-          "chapter": "Data Handling Using Pandas II",
-          "subtopics": [
-            "descriptive statistics",
-            "aggregation group by sorting",
-            "renaming index",
-            "pivoting",
-            "missing values",
-            "MySQL and Pandas import export"
-          ]
-        },
-        {
-          "chapter": "Plotting Data Using Matplotlib",
-          "subtopics": [
-            "line plot",
-            "bar graph",
-            "histogram",
-            "pie chart",
-            "frequency polygon",
-            "box plot",
-            "scatter plot",
-            "customization labels title legend"
-          ]
-        },
-        {
-          "chapter": "Introduction to Computer Networks",
-          "subtopics": [
-            "LAN MAN WAN",
-            "network devices",
-            "network topologies",
-            "internet URL WWW",
-            "web email chat VoIP",
-            "website webpage static dynamic webserver hosting",
-            "browser settings plugins cookies"
-          ]
-        },
-        {
-          "chapter": "Societal Impacts",
-          "subtopics": [
-            "digital footprint",
-            "net etiquette",
-            "data protection",
-            "IPR plagiarism licensing copyright",
-            "FOSS creative commons",
-            "cybercrime cyber laws",
-            "hacking phishing cyberbullying",
-            "IT Act",
-            "e-waste",
-            "health and ergonomics"
           ]
         }
       ]

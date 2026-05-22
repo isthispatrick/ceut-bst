@@ -1,10 +1,8 @@
 name,url,type,priority
 NTA CUET official syllabus page,https://cuet.nta.nic.in/syllabus/,official_syllabus_page,1.0
-Official CUET Computer Science / Information Practices syllabus PDF,https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf,official_syllabus_pdf,1.0
+Official CUET Computer Science syllabus PDF,https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/03/2025030172.pdf,official_syllabus_pdf,1.0
 NTA exam paper download archive,https://nta.ac.in/Download/ExamPaper/,official_question_archive,1.0
-AglaSem CUET 2025 Computer Science / Informatics Practices question paper,https://admission.aglasem.com/cuet-2025-question-paper-computer-sciences-informatics-practices/,structured_pyq_page,0.65
 AglaSem CUET previous year question papers,https://admission.aglasem.com/cuet-question-papers/,structured_pyq_index,0.65
 CUET Academy Computer Science previous year paper page,https://cuetacademy.online/cuet-computer-science-previous-year-question-paper-with-answer-pdf-download/,structured_pyq_page,0.65
-Collegedunia CUET 2022 Computer Science / Informatics Practices paper,https://collegedunia.com/news/e-1361-cuet-2022-computer-science-informatics-practices-question-paper,structured_pyq_page,0.65
 Testbook CUET previous year papers,https://testbook.com/cuet/previous-year-papers,structured_pyq_index,0.65
 CareerLauncher CUET previous year papers,https://www.careerlauncher.com/cuet/previous-year-question-paper/,structured_pyq_index,0.65
