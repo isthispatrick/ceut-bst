@@ -16,6 +16,7 @@ DATA_DIR = ROOT / "data" / "cuet_cs"
 PROCESSED = DATA_DIR / "processed"
 REPORTS = ROOT / "reports" / "cuet_cs"
 ATTEMPTS_PATH = PROCESSED / "mock_attempts.csv"
+GENERATED_PAPER_PATH = REPORTS / "cuet_cs_adaptive_mock_2026.csv"
 
 
 st.set_page_config(page_title="CUET Computer Science Dashboard", layout="wide")
@@ -189,105 +190,192 @@ def mock_practice_page() -> None:
         score = int(last["score_delta"].sum())
         st.info(f"Remembered {attempts['session_id'].nunique()} mock attempts. Last score: {score}/{len(last) * 5}, accuracy: {(correct / attempted * 100) if attempted else 0:.1f}%.")
 
-    chapters = sorted(bank["chapter"].dropna().astype(str).unique())
-    default_chapters = sorted(profile["chapter"].head(4).tolist()) if not profile.empty else chapters
-    selected_chapters = st.multiselect("Focus chapters", chapters, default=default_chapters or chapters)
-    mode = st.radio("Mock type", ["adaptive", "quick", "focused", "full_cuet_style"], horizontal=True)
-    seed = st.number_input("Shuffle seed", min_value=1, max_value=9999, value=305)
-    filtered_bank = bank[bank["chapter"].astype(str).isin(selected_chapters)].copy()
-    if filtered_bank.empty:
-        st.info("Select at least one chapter.")
-        return
-    mock_questions = build_mock(filtered_bank, blueprint, mode, int(seed), profile)
-    st.caption(f"Loaded {len(mock_questions)} questions. Full CUET-style mode targets 15 Section A + 25 Section B1 when enough questions are available.")
-    if mode == "adaptive":
-        st.caption("Adaptive mode weights high-value CS topics plus your wrong/skipped topics from saved attempts.")
+    paper_source = st.radio(
+        "Paper",
+        ["generated_adaptive_2026", "build_new_mock"],
+        format_func=lambda value: "Use generated adaptive 2026 paper" if value == "generated_adaptive_2026" else "Build a new mock from bank",
+        horizontal=True,
+    )
+    mode = "generated_adaptive_2026"
+    seed = 305
+    if paper_source == "generated_adaptive_2026":
+        mock_questions = load_generated_paper()
+        if mock_questions.empty:
+            st.error("Generated paper CSV is missing. Recreate it from the reports/cuet_cs export.")
+            return
+        st.caption("Loaded the exact generated paper that was exported as PDF, now as an interactive CUET-style exam.")
+    else:
+        chapters = sorted(bank["chapter"].dropna().astype(str).unique())
+        default_chapters = sorted(profile["chapter"].head(4).tolist()) if not profile.empty else chapters
+        selected_chapters = st.multiselect("Focus chapters", chapters, default=default_chapters or chapters)
+        mode = st.radio("Mock type", ["adaptive", "quick", "focused", "full_cuet_style"], horizontal=True)
+        seed = st.number_input("Shuffle seed", min_value=1, max_value=9999, value=305)
+        filtered_bank = bank[bank["chapter"].astype(str).isin(selected_chapters)].copy()
+        if filtered_bank.empty:
+            st.info("Select at least one chapter.")
+            return
+        mock_questions = build_mock(filtered_bank, blueprint, mode, int(seed), profile)
+        st.caption(f"Loaded {len(mock_questions)} questions. Full CUET-style mode targets 15 Section A + 25 Section B1 when enough questions are available.")
+        if mode == "adaptive":
+            st.caption("Adaptive mode weights high-value CS topics plus your wrong/skipped topics from saved attempts.")
     st.download_button(
         "Download this paper as CSV",
         mock_questions.to_csv(index=False),
         file_name=f"cuet_cs_{mode}_mock.csv",
         mime="text/csv",
     )
-
-    with st.form("cuet_cs_mock_form"):
-        answers = {}
-        for index, row in mock_questions.reset_index(drop=True).iterrows():
-            st.markdown(f"**Q{index + 1}. [{row['chapter']} -> {row['subtopic']}]**")
-            st.write(row["question_text"])
-            options = {
-                "A": row["option_a"],
-                "B": row["option_b"],
-                "C": row["option_c"],
-                "D": row["option_d"],
-            }
-            answers[row["practice_id"]] = st.radio(
-                "Choose one",
-                ["Not answered", "A", "B", "C", "D"],
-                format_func=lambda value, opts=options: value if value == "Not answered" else f"{value}. {opts[value]}",
-                key=f"mock_{row['practice_id']}",
-            )
-            st.divider()
-        submitted = st.form_submit_button("Submit mock")
-
-    if submitted:
-        review_rows = []
-        attempt_rows = []
-        session_id = str(uuid.uuid4())
-        attempted_at = datetime.now(timezone.utc).isoformat()
-        correct = 0
-        attempted = 0
-        for _, row in mock_questions.iterrows():
-            chosen = answers.get(row["practice_id"], "Not answered")
-            is_attempted = chosen != "Not answered"
-            is_correct = chosen == row["correct_option"]
-            attempted += int(is_attempted)
-            correct += int(is_correct)
-            review_rows.append(
-                {
-                    "chapter": row["chapter"],
-                    "subtopic": row["subtopic"],
-                    "chosen": chosen,
-                    "correct": row["correct_option"],
-                    "result": "correct" if is_correct else ("skipped" if not is_attempted else "wrong"),
-                    "explanation": row["explanation"],
-                    "priority_tier": row["priority_tier"],
-                }
-            )
-            attempt_rows.append(
-                {
-                    "session_id": session_id,
-                    "attempted_at": attempted_at,
-                    "mock_type": mode,
-                    "practice_id": row["practice_id"],
-                    "section": row["section"],
-                    "chapter": row["chapter"],
-                    "subtopic": row["subtopic"],
-                    "question_type": row["question_type"],
-                    "difficulty": row["difficulty"],
-                    "priority_tier": row["priority_tier"],
-                    "raw_score": row["raw_score"],
-                    "chosen": chosen,
-                    "correct_option": row["correct_option"],
-                    "attempted": int(is_attempted),
-                    "is_correct": int(is_correct),
-                    "score_delta": 5 if is_correct else (-1 if is_attempted else 0),
-                    "result": "correct" if is_correct else ("skipped" if not is_attempted else "wrong"),
-                }
-            )
-        score = correct * 5 - (attempted - correct) * 1
-        max_score = len(mock_questions) * 5
-        save_attempts(pd.DataFrame(attempt_rows))
-        st.success(f"Score: {score} / {max_score} | Correct: {correct} | Attempted: {attempted} | Accuracy: {(correct / attempted * 100) if attempted else 0:.1f}%")
-        review = pd.DataFrame(review_rows)
-        st.plotly_chart(px.histogram(review, y="chapter", color="result", title="Mock Result By Chapter"), use_container_width=True)
-        weak = review[review["result"].isin(["wrong", "skipped"])]
-        if not weak.empty:
-            st.subheader("What To Practice Next")
-            st.dataframe(weak[["chapter", "subtopic", "result", "explanation", "priority_tier"]], use_container_width=True, height=360)
-        st.subheader("Full Review")
-        st.dataframe(review, use_container_width=True, height=520)
-        st.caption("This attempt has been saved locally and will influence the next adaptive mock.")
+    render_cuet_exam(mock_questions, mode, bank)
     personal_coach(load_attempts(), bank)
+
+
+def load_generated_paper() -> pd.DataFrame:
+    if not GENERATED_PAPER_PATH.exists():
+        return pd.DataFrame()
+    paper = pd.read_csv(GENERATED_PAPER_PATH).fillna("")
+    if "practice_id" not in paper.columns:
+        paper["practice_id"] = [f"generated_{index + 1}" for index in range(len(paper))]
+    return paper
+
+
+def render_cuet_exam(mock_questions: pd.DataFrame, mode: str, bank: pd.DataFrame) -> None:
+    questions = mock_questions.reset_index(drop=True).copy()
+    exam_key = f"cs_exam_{mode}_{'-'.join(questions['practice_id'].astype(str).head(8).tolist())}_{len(questions)}"
+    if st.session_state.get("cs_exam_key") != exam_key:
+        st.session_state.cs_exam_key = exam_key
+        st.session_state.cs_exam_answers = {}
+        st.session_state.cs_exam_current = 0
+        st.session_state.cs_exam_submitted = False
+        st.session_state.cs_exam_review = pd.DataFrame()
+    answers = st.session_state.cs_exam_answers
+    current = int(st.session_state.cs_exam_current)
+    current = max(0, min(current, len(questions) - 1))
+
+    answered = sum(1 for value in answers.values() if value != "Not answered")
+    remaining = len(questions) - answered
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Questions", len(questions))
+    m2.metric("Answered", answered)
+    m3.metric("Not answered", remaining)
+
+    st.markdown("#### Question Palette")
+    palette_cols = st.columns(10)
+    for index, row in questions.iterrows():
+        value = answers.get(row["practice_id"], "Not answered")
+        label = f"{index + 1}" if value == "Not answered" else f"{index + 1}*"
+        if palette_cols[index % 10].button(label, key=f"palette_{exam_key}_{index}", help="* means answered"):
+            st.session_state.cs_exam_current = index
+            st.rerun()
+
+    row = questions.iloc[current]
+    st.markdown("---")
+    st.markdown(f"### Q{current + 1}. [{row['chapter']} -> {row['subtopic']}]")
+    st.write(row["question_text"])
+    options = {
+        "A": row["option_a"],
+        "B": row["option_b"],
+        "C": row["option_c"],
+        "D": row["option_d"],
+    }
+    previous = answers.get(row["practice_id"], "Not answered")
+    choice = st.radio(
+        "Choose one",
+        ["Not answered", "A", "B", "C", "D"],
+        index=["Not answered", "A", "B", "C", "D"].index(previous) if previous in ["Not answered", "A", "B", "C", "D"] else 0,
+        format_func=lambda value: value if value == "Not answered" else f"{value}. {options[value]}",
+        key=f"choice_{exam_key}_{row['practice_id']}",
+    )
+    answers[row["practice_id"]] = choice
+    st.session_state.cs_exam_answers = answers
+
+    n1, n2, n3, n4 = st.columns([1, 1, 1, 2])
+    if n1.button("Previous", disabled=current == 0):
+        st.session_state.cs_exam_current = current - 1
+        st.rerun()
+    if n2.button("Next", disabled=current == len(questions) - 1):
+        st.session_state.cs_exam_current = current + 1
+        st.rerun()
+    if n3.button("Clear"):
+        answers[row["practice_id"]] = "Not answered"
+        st.session_state.cs_exam_answers = answers
+        st.rerun()
+    finish = n4.button("Finish And Analyze", type="primary")
+    if finish:
+        review, attempt_rows = score_mock_attempt(questions, answers, mode)
+        save_attempts(attempt_rows)
+        st.session_state.cs_exam_submitted = True
+        st.session_state.cs_exam_review = review
+        st.rerun()
+
+    if st.session_state.cs_exam_submitted and not st.session_state.cs_exam_review.empty:
+        show_mock_analysis(st.session_state.cs_exam_review, bank)
+
+
+def score_mock_attempt(questions: pd.DataFrame, answers: dict[str, str], mode: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    review_rows = []
+    attempt_rows = []
+    session_id = str(uuid.uuid4())
+    attempted_at = datetime.now(timezone.utc).isoformat()
+    for _, row in questions.iterrows():
+        chosen = answers.get(row["practice_id"], "Not answered")
+        is_attempted = chosen != "Not answered"
+        is_correct = chosen == row["correct_option"]
+        result = "correct" if is_correct else ("skipped" if not is_attempted else "wrong")
+        review_rows.append(
+            {
+                "chapter": row["chapter"],
+                "subtopic": row["subtopic"],
+                "chosen": chosen,
+                "correct": row["correct_option"],
+                "result": result,
+                "explanation": row["explanation"],
+                "priority_tier": row["priority_tier"],
+                "question_type": row["question_type"],
+                "difficulty": row["difficulty"],
+            }
+        )
+        attempt_rows.append(
+            {
+                "session_id": session_id,
+                "attempted_at": attempted_at,
+                "mock_type": mode,
+                "practice_id": row["practice_id"],
+                "section": row["section"],
+                "chapter": row["chapter"],
+                "subtopic": row["subtopic"],
+                "question_type": row["question_type"],
+                "difficulty": row["difficulty"],
+                "priority_tier": row["priority_tier"],
+                "raw_score": row["raw_score"],
+                "chosen": chosen,
+                "correct_option": row["correct_option"],
+                "attempted": int(is_attempted),
+                "is_correct": int(is_correct),
+                "score_delta": 5 if is_correct else (-1 if is_attempted else 0),
+                "result": result,
+            }
+        )
+    return pd.DataFrame(review_rows), pd.DataFrame(attempt_rows)
+
+
+def show_mock_analysis(review: pd.DataFrame, bank: pd.DataFrame) -> None:
+    attempted = int(review["chosen"].ne("Not answered").sum())
+    correct = int(review["result"].eq("correct").sum())
+    score = correct * 5 - (attempted - correct) * 1
+    max_score = len(review) * 5
+    st.success(f"Score: {score} / {max_score} | Correct: {correct} | Attempted: {attempted} | Accuracy: {(correct / attempted * 100) if attempted else 0:.1f}%")
+    st.plotly_chart(px.histogram(review, y="chapter", color="result", title="Mock Result By Chapter"), use_container_width=True)
+    weak = review[review["result"].isin(["wrong", "skipped"])]
+    if not weak.empty:
+        st.subheader("What To Practice Next")
+        st.dataframe(weak[["chapter", "subtopic", "question_type", "difficulty", "result", "explanation", "priority_tier"]], use_container_width=True, height=360)
+    st.subheader("Full Review")
+    st.dataframe(review, use_container_width=True, height=520)
+    st.caption("This attempt has been saved locally and will influence the next adaptive mock.")
+    if st.button("Analyze this result with AI"):
+        attempts = load_attempts()
+        profile = build_weak_profile(attempts).head(10)
+        with st.spinner("Asking the model to analyze this result..."):
+            st.markdown(ai_attempt_analysis(profile, attempts, bank))
 
 
 def build_mock(bank: pd.DataFrame, blueprint: pd.DataFrame, mode: str, seed: int, profile: pd.DataFrame | None = None) -> pd.DataFrame:
